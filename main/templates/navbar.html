@@ -1,0 +1,15 @@
+{% load static %}
+<nav class="bg-white shadow-md p-4 border-b-2 border-black">
+    <div class="container mx-auto flex justify-between">
+        <a href="#" class="flex items-center">
+            <img src="{% static 'images/projectlogo.png' %}" alt="Project Logo" class="h-8 w-auto"> <!-- Add logo later -->
+        </a>
+        <ul class="flex space-x-4">
+            <a href="{% url 'main:homepage' %}" class="{% if request.path == '/' %}bg-gray-200{% endif %} hover:text-gray-500">Home</a>
+            <li><a href="#" class="hover:text-gray-600">Faculty</a></li>
+            <li><a href="#" class="hover:text-gray-600">Cuisine</a></li>
+            <li><a href="#" class="hover:text-gray-600">Log In</a></li>
+            <li><a href="#" class="text-red-500 font-bold">Register</a></li>
+        </ul>
+    </div>
+</nav>

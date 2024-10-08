@@ -1,11 +1,48 @@
 from django.db import models
 
-class ReviewEntry(models.Model):
-    name = models.CharField(max_length=255)
-    place = models.CharField(max_length=255)
-    review = models.TextField()
-    rating = models.IntegerField()
+from django.db import models
 
-    @property
-    def good_rating(self):
-        return self.rating > 3
+# faculty model
+class Faculty(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+# canteen model
+class Canteen(models.Model):
+    name = models.CharField(max_length=100)
+    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name='canteens')
+
+    def __str__(self):
+        return f"{self.name} ({self.faculty.name})"
+
+# stall model
+class Stall(models.Model):
+    CUISINE_CHOICES = [
+        ('indonesian', 'Indonesian'),
+        ('chinese', 'Chinese'),
+        ('western', 'Western'),
+        ('japanese', 'Japanese'),
+        ('korean', 'Korean'),
+        ('others', 'Others'),
+    ]
+
+    name = models.CharField(max_length=100)
+    canteen = models.ForeignKey(Canteen, on_delete=models.CASCADE, related_name='stalls')
+    cuisine = models.CharField(max_length=50, choices=CUISINE_CHOICES, default='others')
+
+    def __str__(self):
+        return f"{self.name} (Canteen: {self.canteen.name})"
+
+# product model
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    stall = models.ForeignKey(Stall, on_delete=models.CASCADE, related_name='products')
+
+    def __str__(self):
+        return self.name
+        # return f"{self.name} - {self.price} (Stall: {self.stall.name})"
+
+

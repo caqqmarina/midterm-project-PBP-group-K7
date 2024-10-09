@@ -25,6 +25,10 @@
         <div class="bg-white shadow-md rounded-lg p-4">
             <img src="{% static 'images/fkmmakara.png' %}" alt="FKM Image" class="w-full h-36 object-cover">
             <p class="text-xl font-semibold mt-2">FKM</p>
+            
+        <h5>Last login session: {{ last_login }}</h5>
+        <a href = "{% url 'main:logout' %}" class="text-lg text-blue-600 hover:text-blue-400 transition">
+            Log Out
         </div>
     </div>
 </div>

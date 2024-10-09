@@ -33,3 +33,4 @@ manual research
 
 ## Application deployment link# midterm-project-PBP-group-K7
 
+http://chiara-aqmarina-midtermproject.pbp.cs.ui.ac.id/

@@ -34,7 +34,7 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            response = HttpResponseRedirect(reverse("main:show_main"))
+            response = HttpResponseRedirect(reverse("main:homepage"))
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
 

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-w14+=jdbhd=il)!co+g*mbps%wtk4u=td6f$z-a(vm$!^j6kxy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "chiara-aqmarina-midtermproject.pbp.cs.ui.ac.id"]
 
 
 # Application definition
@@ -130,3 +130,5 @@ else:
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://chiara-aqmarina-midtermproject.pbp.cs.ui.ac.id", "https://chiara-aqmarina-midtermproject.pbp.cs.ui.ac.id"]

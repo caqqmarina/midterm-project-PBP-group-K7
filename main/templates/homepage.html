@@ -7,14 +7,13 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-
-<div class="container mx-auto py-8 text-center">
-    <h1 class="font-tiny5 text-4xl font-bold">Welcome,</h1>
+<div class="min-h-screen flex flex-col justify-center items-center" style="background: url('{% static 'images/backgroundgradient.jpg' %}') no-repeat center center fixed; background-size: cover;">
+    <h1 class="tiny5-regular text-4xl font-bold">Welcome,</h1>
     <p class="font-chivo-mono text-lg underline mb-4">Username</p>
 
-    <h1 class="font-tiny5 text-2xl mb-8">Where do you want to eat today?</h1>
+    <h1 class="tiny5-regular text-2xl mb-8">Where do you want to eat today?</h1>
 
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-3 gap-4 w-full px-4">
         <div class="bg-white shadow-md rounded-lg p-4">
             <img src="{% static 'images/fmipamakara.png' %}" alt="FMIPA Image" class="w-full h-36 object-cover">
             <p class="text-xl font-semibold mt-2">FMIPA</p>
@@ -26,15 +25,14 @@
         <div class="bg-white shadow-md rounded-lg p-4">
             <img src="{% static 'images/fkmmakara.png' %}" alt="FKM Image" class="w-full h-36 object-cover">
             <p class="text-xl font-semibold mt-2">FKM</p>
-            
-        <h5>Last login session: {{ last_login }}</h5>
-        <a href = "{% url 'main:logout' %}" class="text-lg text-blue-600 hover:text-blue-400 transition">
-            Log Out
         </div>
     </div>
+
+    <h5 class="mt-8">Last login session: {{ last_login }}</h5>
+    <a href="{% url 'main:logout' %}" class="text-lg text-blue-600 hover:text-blue-400 transition mt-4">
+        Log Out
+    </a>
 </div>
-
-
 {% endblock %}
 
 <!-- JS for Interactivity (optional) -->

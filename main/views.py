@@ -49,6 +49,9 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
+
+def faculty(request):
+    return render(request, 'faculty.html')
 # def show_main(request):
 #     context = {
 #         'group' : 'K7',

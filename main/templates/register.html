@@ -6,11 +6,19 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style="background: url('{% static 'images/danaubg.png' %}') no-repeat center center fixed; background-size: cover; position: relative;">
-  <div class="absolute inset-0 bg-white opacity-25"></div> <!-- Overlay to reduce opacity -->
+<div class="min-h-screen flex items-center justify-center w-screen py-12 px-4 sm:px-6 lg:px-8" style="background: url('{% static 'images/backgroundgradient.jpg' %}'); url('{% static 'images/danaubgbnw.png' %}'); no-repeat center center fixed; background-size: cover;">
+  <div class="max-w-md w-full bg-white bg-opacity-75 shadow-lg rounded-lg p-8 space-y-8">
   <div class="max-w-md w-full space-y-8 form-style" style="position: relative; z-index: 1;">
     <div>
-        <h2 class="mt-6 text-center text-3xl font-extrabold" style="color: white; text-shadow: -1px -1px 0 #FFA500, 1px -1px 0 #FFA500, -1px 1px 0 #FFA500, 1px 1px 0 #FFA500;">
+      <h2 class="mt-6 text-center text-3xl font-extrabold" 
+      style="color: white; 
+             text-shadow: 
+               0 0 5px rgba(0, 0, 0, 0.8), /* Soft white glow */
+               -2px -2px 3px #ffd6f2, /* Cyan shadow */
+               2px 2px 3px #fdff9e, /* Orange shadow */
+               0 0 10px #ff9deb; /* Additional orange glow */
+             letter-spacing: 1px; /* Slight letter spacing for clarity */
+             ">
             Create your account
         </h2>
     </div>
@@ -43,7 +51,7 @@
       </div>
 
       <div>
-        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
           Register
         </button>
       </div>
@@ -52,7 +60,7 @@
     {% if messages %}
     <div class="mt-4">
       {% for message in messages %}
-      <div class="bg-orange-100 border border-orange-400 text-orange-700 px-4 py-3 rounded relative" role="alert">
+      <div class="bg-sky-100 border border-sky-400 text-sky-700 px-4 py-3 rounded relative" role="alert">
         <span class="block sm:inline">{{ message }}</span>
       </div>
       {% endfor %}
@@ -60,10 +68,10 @@
     {% endif %}
 
     <div class="text-center mt-4">
-        <div class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+        <div class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
             <p class="text-sm text-black">
                 Already have an account?
-                <a href="{% url 'main:login' %}" class="font-medium text-orange-500 hover:text-orange-700">
+                <a href="{% url 'main:login' %}" class="font-medium text-sky-500 hover:text-sky-700">
                 Login here
                 </a>
             </p>

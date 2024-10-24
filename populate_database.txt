@@ -1,6 +1,48 @@
 python manage.py shell
 
-from main.models import Faculty, Canteen
+from main.models import Faculty, Canteen, Stall
+faculty1 = Faculty.objects.create(
+    name='Faculty of Mathematics and Natural Sciences',
+    nickname='FMIPA',
+    name_css_class='mb-4 rounded-full py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center bg-gradient-to-r from-cyan-600 to-black',
+    image='images/fmipamakara.png'
+)
+
+faculty2 = Faculty.objects.create(
+    name='Faculty of Social and Political Sciences',
+    nickname='FISIP',
+    name_css_class='mb-4 rounded-full bg-amber-500 py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center',
+    image='images/fisipmakara.png'
+)
+
+faculty3 = Faculty.objects.create(
+    name='Faculty of Cultural Sciences',
+    nickname='FIB',
+    name_css_class='mb-4 rounded-full bg-gray-200 py-0.5 px-2.5 border border-transparent text-xs text-slate-500 transition-all shadow-sm w-20 text-center',
+    image='images/makarafibui.png'
+)
+
+faculty4 = Faculty.objects.create(
+    name='Faculty of Computer Science',
+    nickname='FASILKOM',
+    name_css_class='mb-4 rounded-full py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center bg-gradient-to-r from-blue-500 to-red-600',
+    image='images/makarafasilkom.png'
+)
+
+faculty5 = Faculty.objects.create(
+    name='Vocational Program',
+    nickname='VOKASI',
+    name_css_class='mb-4 rounded-full py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center bg-gradient-to-r from-green-600 via-orange-500 to-blue-500',
+    image='images/makaravokasi.png'
+)
+
+faculty6 = Faculty.objects.create(
+    name='Crystal of Knowledge',
+    nickname='PERPUS-UI',
+    name_css_class='mb-4 rounded-full bg-yellow-400 py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center',
+    image='images/perpusui.png'
+)
+
 myfaculty = Faculty.objects.get(id=1)
 entry = Canteen.objects.create(name='DALLAS', faculty=myfaculty, image='images/fmipamakara.png', price='Rp10.000–Rp25.000/pax')
 myfaculty = Faculty.objects.get(id=2)

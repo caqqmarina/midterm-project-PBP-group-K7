@@ -1,7 +1,5 @@
 from django.db import models
 
-from django.db import models
-
 # faculty model
 class Faculty(models.Model):
     name = models.CharField(max_length=100)

@@ -7,31 +7,32 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<div class="min-h-screen flex flex-col justify-center items-center" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
-    <h1 class="tiny5-regular text-4xl font-bold">Welcome,</h1>
-    <p class="font-chivo-mono text-lg underline mb-4">Username</p>
-
-    <h1 class="tiny5-regular text-2xl mb-8">Where do you want to eat today?</h1>
-
-    <div class="grid grid-cols-3 gap-4 w-full px-4">
-        <div class="bg-white shadow-md rounded-lg p-4">
-            <img src="{% static 'images/fmipamakara.png' %}" alt="FMIPA Image" class="w-full h-36 object-cover">
-            <p class="text-xl font-semibold mt-2">FMIPA</p>
-        </div>
-        <div class="bg-white shadow-md rounded-lg p-4">
-            <img src="{% static 'images/fisipmakara.png' %}" alt="FISIP Image" class="w-full h-36 object-cover">
-            <p class="text-xl font-semibold mt-2">FISIP</p>
-        </div>
-        <div class="bg-white shadow-md rounded-lg p-4">
-            <img src="{% static 'images/fkmmakara.png' %}" alt="FKM Image" class="w-full h-36 object-cover">
-            <p class="text-xl font-semibold mt-2">FKM</p>
-        </div>
+<div class="container mx-auto my-12 p-8" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
+    <!-- Welcome Section -->
+    <div class="text-center mb-12">
+        <img src="{% static 'images/danaubg.png' %}" alt="University Building" class="mx-auto rounded-lg shadow-lg w-3/4 md:w-1/2 mb-8">
+        <h1 class="text-3xl font-bold">Welcome, <span class="underline">Username</span></h1>
+        <p class="text-xl mt-4">Where do you want to eat today?</p>
     </div>
 
-    <!-- <h5 class="mt-8">Last login session: {{ last_login }}</h5>
-    <a href="{% url 'main:logout' %}" class="text-lg text-blue-600 hover:text-blue-400 transition mt-4">
-        Log Out
-    </a> -->
+    <!-- Noteworthy Bites Section -->
+    <div class="text-center mb-8">
+        <h2 class="text-4xl underline mb-4" style="font-family: 'Damion';">Some Noteworthy Bites</h2>
+    </div>
+
+    <!-- Noteworthy Bites Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Repeat this card for each "Bite" item -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <img src="{% static 'images/makaravokasi.png' %}" alt="Food Image" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h3 class="text-lg font-bold">Faculty of Science</h3>
+                <p class="text-sm text-gray-600 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                <a href="#" class="inline-block mt-4 text-blue-500 hover:text-blue-400">Read More &rarr;</a>
+            </div>
+        </div>
+        <!-- Repeat this card structure for other items -->
+    </div>
 </div>
 {% include 'footer.html' %}
 {% endblock %}

@@ -1,7 +1,7 @@
 from django.urls import path
 # from main.views import show_main
 from main.views import homepage, register, login_user, logout_user \
-    , faculty
+    , faculty, canteen
 
 app_name = 'main'
 
@@ -11,5 +11,6 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
-    path('faculty/', faculty, name='faculty')
+    path('faculty/', faculty, name='faculty'),
+    path('canteen/<str:name>/', canteen, name='canteen')
 ]

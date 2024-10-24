@@ -1,0 +1,21 @@
+python manage.py shell
+
+from main.models import Faculty, Canteen
+myfaculty = Faculty.objects.get(id=1)
+entry = Canteen.objects.create(name='DALLAS', faculty=myfaculty, image='images/fmipamakara.png', price='Rp10.000–Rp25.000/pax')
+myfaculty = Faculty.objects.get(id=2)
+entry = Canteen.objects.create(name='TAKOR', faculty=myfaculty, image='images/fisipmakara.png', price='Rp10.000–Rp25.000/pax')
+myfaculty = Faculty.objects.get(id=3)
+entry = Canteen.objects.create(name='KANSAS', faculty=myfaculty, image='images/makarafibui.png', price='Rp10.000–Rp20.000/pax')
+myfaculty = Faculty.objects.get(id=4)
+entry = Canteen.objects.create(name='BALGEBUN', faculty=myfaculty, image='images/makarafasilkom.png', price='Rp10.000–Rp20.000/pax')
+myfaculty = Faculty.objects.get(id=5)
+entry = Canteen.objects.create(name='KANVOK', faculty=myfaculty, image='images/makaravokasi.png', price='Rp10.000–Rp25.000/pax')
+myfaculty = Faculty.objects.get(id=6)
+entry = Canteen.objects.create(name='LIBRARY', faculty=myfaculty, image='images/perpusui.png', price='Rp10.000–Rp25.000/pax')
+
+canteen = Canteen.objects.get(name='KANSAS')
+new_stall = Stall.objects.create(name='Dapur Ayu', canteen=canteen, cuisine='indonesian')
+
+sqlite3 db.sqlite3
+UPDATE main_faculty SET nickname = 'PERPUS-UI' WHERE id = 6;

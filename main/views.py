@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from main.models import Product
+from main.models import Product, Faculty, Canteen, Stall
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -54,7 +54,17 @@ def logout_user(request):
 
 
 def faculty(request):
-    return render(request, 'faculty.html')
+    data = Canteen.objects.all()
+    context = {'data': data}
+    return render(request, 'faculty.html', context)
+
+def canteen(request, name):
+    canteen = Canteen.objects.get(name=name)
+
+    data = Stall.objects.filter(canteen=canteen)
+
+    context = {'data': data, 'faculty_name': name}
+    return render(request, 'canteen.html', context)
 
 @login_required(login_url='/login/')
 def user_homepage(request):

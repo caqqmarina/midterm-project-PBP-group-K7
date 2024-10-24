@@ -3,6 +3,9 @@ from django.db import models
 # faculty model
 class Faculty(models.Model):
     name = models.CharField(max_length=100)
+    nickname = models.CharField(max_length=10)
+    name_css_class = models.CharField(max_length=200)
+    image = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -11,6 +14,8 @@ class Faculty(models.Model):
 class Canteen(models.Model):
     name = models.CharField(max_length=100)
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name='canteens')
+    image = models.CharField(max_length=100)
+    price = models.CharField(max_length=120)
 
     def __str__(self):
         return f"{self.name} ({self.faculty.name})"

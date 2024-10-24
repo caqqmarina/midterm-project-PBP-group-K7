@@ -7,7 +7,7 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<div class="min-h-screen flex flex-col justify-center items-center" style="background: url('{% static 'images/backgroundgradient.jpg' %}') no-repeat center center fixed; background-size: cover;">
+<div class="min-h-screen flex flex-col justify-center items-center" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
     <h1 class="tiny5-regular text-4xl font-bold">Welcome,</h1>
     <p class="font-chivo-mono text-lg underline mb-4">Username</p>
 
@@ -28,11 +28,12 @@
         </div>
     </div>
 
-    <h5 class="mt-8">Last login session: {{ last_login }}</h5>
+    <!-- <h5 class="mt-8">Last login session: {{ last_login }}</h5>
     <a href="{% url 'main:logout' %}" class="text-lg text-blue-600 hover:text-blue-400 transition mt-4">
         Log Out
-    </a>
+    </a> -->
 </div>
+{% include 'footer.html' %}
 {% endblock %}
 
 <!-- JS for Interactivity (optional) -->

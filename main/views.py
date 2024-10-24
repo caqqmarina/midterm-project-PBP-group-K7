@@ -37,6 +37,8 @@ def login_user(request):
             response = HttpResponseRedirect(reverse("main:homepage"))
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
+        else:
+            messages.error(request, 'Invalid username or password.')
 
     else:
         form = AuthenticationForm(request)
@@ -45,13 +47,18 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('main:login'))
+    messages.success(request, 'You have been logged out.')
+    response = HttpResponseRedirect(reverse('main:homepage'))
     response.delete_cookie('last_login')
     return response
 
 
 def faculty(request):
     return render(request, 'faculty.html')
+
+@login_required(login_url='/login/')
+def user_homepage(request):
+    return
 # def show_main(request):
 #     context = {
 #         'group' : 'K7',

@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="p-4 shadow" style="background: url('{% static 'images/backgroundgradient.jpg' %}') no-repeat center center fixed; background-size: cover;">
+<nav class="p-4 shadow" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
     <div class="container mx-auto flex justify-between items-center border-b-2 border-black" style="height: 100px;">
         <!-- Logo -->
         <a href="{% url 'main:homepage' %}">
@@ -14,19 +14,25 @@
             <a href="{% url 'main:faculty' %}" class="text-lg font-semibold text-gray-900 hover:text-gray-600 transition">
                 Faculty
             </a>
-            <a href="{% url 'main:homepage' %}" class="text-lg font-semibold text-gray-900 hover:text-gray-600 transition">
+            <a href="{% url 'main:faculty' %}" class="text-lg font-semibold text-gray-900 hover:text-gray-600 transition">
                 Cuisine
             </a>
         </div>
 
         <!-- Authentication Links -->
         <div class="flex space-x-4">
-            <a href="{% url 'main:login' %}" class="text-lg text-blue-600 hover:text-blue-400 transition">
-                Log In
-            </a>
-            <a href="{% url 'main:register' %}" class="text-lg text-red-600 hover:text-red-400 transition">
-                Register
-            </a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'main:logout' %}" class="text-lg text-blue-600 hover:text-blue-400 transition">
+                    Log Out
+                </a>
+            {% else %}
+                <a href="{% url 'main:login' %}" class="text-lg text-blue-600 hover:text-blue-400 transition">
+                    Log In
+                </a>
+                <a href="{% url 'main:register' %}" class="text-lg text-red-600 hover:text-red-400 transition">
+                    Register
+                </a>
+            {% endif %}
         </div>
     </div>
 </nav>

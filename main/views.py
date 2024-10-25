@@ -5,11 +5,14 @@ from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from .forms import FacultyForm, CanteenForm, StallForm, ProductForm
 import datetime
+
+def is_admin(user):
+    return user.is_staff
 
 def homepage(request):
     return render(request, 'homepage.html')
@@ -83,6 +86,7 @@ def add_faculty(request):
         form = FacultyForm()
     return render(request, 'add_faculty.html', {'form': form})
 
+@user_passes_test(is_admin, login_url='/login/')
 def add_canteen(request):
     if request.method == 'POST':
         form = CanteenForm(request.POST)
@@ -93,6 +97,7 @@ def add_canteen(request):
         form = CanteenForm()
     return render(request, 'add_canteen.html', {'form': form})
 
+@user_passes_test(is_admin, login_url='/login/')
 def add_stall(request):
     if request.method == 'POST':
         form = StallForm(request.POST)
@@ -103,6 +108,7 @@ def add_stall(request):
         form = StallForm()
     return render(request, 'add_stall.html', {'form': form})
 
+@user_passes_test(is_admin, login_url='/login/')
 def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)

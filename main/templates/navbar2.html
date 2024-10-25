@@ -2,14 +2,28 @@
 <nav class="bg-white shadow-md p-4 border-b-2 border-black">
     <div class="container mx-auto flex justify-between">
         <a href="#" class="flex items-center">
-            <img src="{% static 'images/projectlogo.png' %}" alt="Project Logo" class="h-8 w-auto"> <!-- Add logo later -->
+            <img src="{% static 'images/projectlogo.png' %}" alt="Project Logo" class="h-8 w-auto">
         </a>
         <ul class="flex space-x-4">
-            <a href="{% url 'main:homepage' %}" class="{% if request.path == '/' %}bg-gray-200{% endif %} hover:text-gray-500">Home</a>
+            <li><a href="{% url 'main:homepage' %}" class="{% if request.path == '/' %}bg-gray-200{% endif %} hover:text-gray-500">Home</a></li>
             <li><a href="#" class="hover:text-gray-600">Faculty</a></li>
             <li><a href="#" class="hover:text-gray-600">Cuisine</a></li>
-            <li><a href="#" class="hover:text-gray-600">Log In</a></li>
-            <li><a href="#" class="text-red-500 font-bold">Register</a></li>
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <li><a href="{% url 'main:add_canteen' %}" class="hover:text-gray-600">Add Canteen</a></li>
+                    <li><a href="{% url 'main:add_stall' %}" class="hover:text-gray-600">Add Stall</a></li>
+                    <li><a href="{% url 'main:add_product' %}" class="hover:text-gray-600">Add Product</a></li>
+                {% endif %}
+                <li>
+                    <form action="{% url 'main:logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="hover:text-gray-600">Log Out</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'main:login' %}" class="hover:text-gray-600">Log In</a></li>
+                <li><a href="{% url 'main:register' %}" class="text-red-500 font-bold">Register</a></li>
+            {% endif %}
         </ul>
     </div>
 </nav>

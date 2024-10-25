@@ -1,7 +1,7 @@
 from django.urls import path
 # from main.views import show_main
 from main.views import homepage, register, login_user, logout_user \
-    , faculty, canteen, add_faculty
+    , faculty, canteen, add_faculty, user_homepage, add_canteen, add_stall, add_product
 
 app_name = 'main'
 
@@ -14,4 +14,8 @@ urlpatterns = [
     path('faculty/', faculty, name='faculty'),
     path('canteen/<str:name>/', canteen, name='canteen'),
     path('add_faculty/', add_faculty, name='add_faculty'),
+    path('user_homepage/', user_homepage, name='user_homepage'),  # User homepage
+    path('admin/add-canteen/', add_canteen, name='add_canteen'),  # Admin canteen addition
+    path('admin/add-stall/', add_stall, name='add_stall'),        # Admin stall addition
+    path('admin/add-product/', add_product, name='add_product'),  # Admin product addition
 ]

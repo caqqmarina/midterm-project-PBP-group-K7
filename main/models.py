@@ -29,6 +29,8 @@ class Stall(models.Model):
         ('japanese', 'Japanese'),
         ('korean', 'Korean'),
         ('others', 'Others'),
+        ('indian', 'Indian'),
+        ('beverages', 'Beverages')
     ]
 
     name = models.CharField(max_length=100)

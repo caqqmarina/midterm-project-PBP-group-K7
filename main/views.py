@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.shortcuts import render, redirect
+from .forms import FacultyForm, CanteenForm, StallForm, ProductForm
 import datetime
 
 def homepage(request):
@@ -69,6 +71,48 @@ def canteen(request, name):
 @login_required(login_url='/login/')
 def user_homepage(request):
     return
+
+
+def add_faculty(request):
+    if request.method == 'POST':
+        form = FacultyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main:faculty')  # Adjust the redirect as needed
+    else:
+        form = FacultyForm()
+    return render(request, 'add_faculty.html', {'form': form})
+
+def add_canteen(request):
+    if request.method == 'POST':
+        form = CanteenForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main:canteen_list')  # Adjust the redirect as needed
+    else:
+        form = CanteenForm()
+    return render(request, 'add_canteen.html', {'form': form})
+
+def add_stall(request):
+    if request.method == 'POST':
+        form = StallForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main:stall_list')  # Adjust the redirect as needed
+    else:
+        form = StallForm()
+    return render(request, 'add_stall.html', {'form': form})
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('main:product_list')  # Adjust the redirect as needed
+    else:
+        form = ProductForm()
+    return render(request, 'add_product.html', {'form': form})
+
 # def show_main(request):
 #     context = {
 #         'group' : 'K7',

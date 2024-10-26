@@ -18,11 +18,11 @@ urlpatterns = [
     path('user_homepage/', user_homepage, name='user_homepage'),  # User homepage
     path('add_canteen/', add_canteen, name='add_canteen'),  # Admin canteen addition
     path('add_stall/', add_stall, name='add_stall'),        # Admin stall addition
-    path('stall/delete/<int:stall_id>/', delete_stall, name='delete_stall'),
+    path('stall/delete/<int:stall_id>/', delete_stall, name='delete_stall'), # Admin delete addition
     path('add_product/', add_product, name='add_product'),  # Admin product addition
     path('faculty/delete/<int:faculty_id>/', delete_faculty, name='delete_faculty'),
     path('show_json/', show_json, name='show_json'),
     path('canteen/<str:canteen_name>/<str:stall_name>/', stall, name='stall'),
     path('add_product/<int:stall_id>/', add_product, name='add_product'),
-    path('product/<int:product_id>/', product_detail, name='product_detail'),
+
 ]

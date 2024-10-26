@@ -32,10 +32,10 @@
                     Log Out
                 </a>
             {% else %}
-                <a href="{% url 'main:login' %}" class="text-lg text-black hover:text-gray-700 transition"style="font-family: 'Doppio One';">
+                <a href="{% url 'main:login_and_register' %}?action=login" class="text-lg text-black hover:text-gray-700 transition">
                     Log In
                 </a>
-                <a href="{% url 'main:register' %}" class="text-lg text-white bg-black px-4 py-2 rounded-full hover:bg-gray-700 transition"style="font-family: 'Doppio One';">
+                <a href="{% url 'main:login_and_register' %}?action=signup" class="text-lg text-white bg-black px-4 py-2 rounded-full hover:bg-gray-700 transition">
                     Register
                 </a>
             {% endif %}

@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect
 from .forms import FacultyForm, CanteenForm, StallForm, ProductForm
 import json
 import datetime
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
 def is_admin(user):
     return user.is_staff
@@ -93,7 +94,7 @@ def login_user(request):
     else:
         form = AuthenticationForm(request)
     context = {'form': form}
-    return render(request, 'login.html', context)
+    return render(request, 'login_and_register.html', context)
 
 def logout_user(request):
     logout(request)
@@ -101,6 +102,38 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:homepage'))
     response.delete_cookie('last_login')
     return response
+
+def login_and_register(request):
+    form = CustomUserCreationForm()
+    login_form = CustomAuthenticationForm()
+
+    if request.method == 'POST':
+        if 'signUp' in request.POST:
+            form = CustomUserCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                username = form.cleaned_data.get('username')
+                raw_password = form.cleaned_data.get('password1')
+                user = authenticate(username=username, password=raw_password)
+                login(request, user)
+                return redirect('main:homepage')
+            else:
+                messages.error(request, 'Registration failed. Please correct the errors below.')
+        elif 'signIn' in request.POST:
+            login_form = CustomAuthenticationForm(request, data=request.POST)
+            if login_form.is_valid():
+                username = login_form.cleaned_data.get('username')
+                password = login_form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('main:homepage')
+                else:
+                    messages.error(request, 'Invalid username or password.')
+            else:
+                messages.error(request, 'Login failed. Please correct the errors below.')
+
+    return render(request, 'login_and_register.html', {'form': form, 'login_form': login_form})
 
 
 def faculty(request):

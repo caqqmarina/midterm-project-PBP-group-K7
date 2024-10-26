@@ -29,6 +29,15 @@
                             {{ item.price }}
                         </p>
                     </div>
+                    <!-- Delete Button -->
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'main:delete_faculty' item.faculty.id %}" method="post" class="mt-4">
+                            {% csrf_token %}
+                            <button type="submit" class="text-white bg-red-500 hover:bg-red-700 py-2 px-4 rounded">
+                                Delete
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
             </a>
             {% empty %}

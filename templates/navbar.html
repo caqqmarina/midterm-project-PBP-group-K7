@@ -8,13 +8,20 @@
 
         <!-- Navigation Links -->
         <div class="flex space-x-12">
-            <a href="{% url 'main:homepage' %}" class="text-lg font-semibold text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+            <a href="{% url 'main:homepage' %}" class="text-lg text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
                 Home
             </a>
-            <a href="{% url 'main:faculty' %}" class="text-lg font-semibold text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+            <a href="{% url 'main:faculty' %}" class="text-lg text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
                 Faculty
             </a>
         </div>
+
+        {% if user.is_staff %}
+            <div class="flex space-x-8">
+                <a href="{% url 'main:add_faculty' %}">Create Product</a>
+                <a href="'{% url 'main:add_stall' %}">Create Stall</a>
+            </div>
+        {% endif %}
 
         <!-- Authentication Links -->
         <div class="flex space-x-4 items-center">

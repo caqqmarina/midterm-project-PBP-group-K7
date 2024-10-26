@@ -3,12 +3,12 @@
 
 {% block content %}
 <div class="container mx-auto my-12 p-8 bg-white shadow-md rounded-lg">
-    <h2 class="text-3xl font-semibold mb-6">Add Faculty</h2>
+    <h2 class="text-3xl font-semibold mb-6">Add Stall</h2>
     <form method="POST" action="">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add Faculty
+        <button type="submit" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+            Add Stall
         </button>
     </form>
     <a href="{% url 'main:homepage' %}" class="text-blue-500 hover:underline mt-4 inline-block">Back to Homepage</a>

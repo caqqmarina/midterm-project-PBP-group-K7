@@ -7,14 +7,19 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<div class="container mx-auto my-12 p-8" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
+<div class="min-h-screen w-full flex flex-col items-center justify-center p-8" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
 
     <!-- Welcome Section -->
     <div class="flex flex-col md:flex-row items-center justify-center mb-12">
         <img src="{% static 'images/danaubg.png' %}" alt="University Building" class="rounded-lg shadow-lg w-3/4 md:w-1/3 mb-8 md:mb-0">
         <div class="md:ml-8 text-center md:text-left">
             <h1 class="text-3xl" style="font-family: 'Doppio One';">Welcome, </h1>
-            <h1 class="text-3xl mt-2" style="font-family: 'Damion';"><span class="underline">Username</span></h1>
+            {% if user.is_authenticated %}
+                <h1 class="text-3xl mt-2 pl-4 inline-block" style="font-family: 'Damion';"><span class="underline">{{ user.username }}</span></h1>
+            {% else %}
+                <h1 class="text-3xl mt-2 pl-4 inline-block" style="font-family: 'Damion';">Guest</h1>
+            {% endif %}
+            <div class="mt-1 border-b-2 border-black w-1/2 mx-auto md:mx-0 mb-2"></div>
             <h1 class="text-3xl mt-2" style="font-family: 'Doppio One';">Where do you want to eat today?</h1>
         </div>
     </div>
@@ -22,7 +27,7 @@
     <!-- Noteworthy Bites Section -->
     <div class="text-center mb-10">
         <h2 class="text-4xl" style="font-family: 'Damion';">Some Noteworthy Bites</h2>
-        <div class="mt-1 mx-auto border-b-2 border-black w-1/2 mb-2"></div>
+        <div class="mt-1 mx-auto border-b-2 border-black w-full mb-2"></div>
     </div>
 
     <!-- Noteworthy Bites Cards Grid -->
@@ -41,7 +46,7 @@
 </div>
 
 {% include 'footer.html' %}
-{% endblock %}
+{% endblock content %}
 
 <!-- JS for Interactivity (optional) -->
 {% block extra_js %}

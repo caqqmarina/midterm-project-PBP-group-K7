@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from .forms import FacultyForm, CanteenForm, StallForm, ProductForm
+import json
 import datetime
 
 def is_admin(user):
@@ -55,7 +56,8 @@ def homepage(request):
         },
     ]
     context = {
-        'bites': bites
+        'bites': bites,
+        'username' : request.user.username
     }
     return render(request, 'homepage.html', context)
 
@@ -114,6 +116,17 @@ def canteen(request, name):
     context = {'data': data, 'faculty_name': name}
     return render(request, 'canteen.html', context)
 
+def stall(request, canteen_name):
+    canteen = Canteen.objects.get(name=canteen_name)
+    data = Stall.objects.filter(canteen=canteen)
+    context = {'data': data, 'canteen_name': canteen_name}
+    return render(request, 'stall.html', context)
+
+def product_list(request):
+    products = Product.objects.all()
+    context = {'products': products}
+    return render(request, 'product_list.html', context)
+
 @login_required(login_url='/login/')
 def user_homepage(request):
     return
@@ -135,7 +148,7 @@ def add_canteen(request):
         form = CanteenForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('main:canteen_list')  # Adjust the redirect as needed
+            return redirect('main:faculty')  # Adjust the redirect as needed
     else:
         form = CanteenForm()
     return render(request, 'add_canteen.html', {'form': form})
@@ -162,14 +175,27 @@ def add_product(request):
         form = ProductForm()
     return render(request, 'add_product.html', {'form': form})
 
-# def show_main(request):
-#     context = {
-#         'group' : 'K7',
-#         'class': 'PBP KKI'
-#     }
+@user_passes_test(is_admin, login_url='/login/')
+@login_required
+def delete_faculty(request, faculty_id):
+    if request.method == 'POST':
+        faculty = get_object_or_404(Faculty, id=faculty_id)  # Match against 'id' field
+        faculty.delete()
+        return redirect('main:faculty')  # Redirect to the faculty listing page
 
-#     return render(request, "main.html", context)
+def show_json(request):
+    faculties = Faculty.objects.all()
+    canteens = Canteen.objects.all()
+    stalls = Stall.objects.all()
+    products = Product.objects.all()
 
+    data = {
+        'faculties': json.loads(serializers.serialize('json', faculties)),
+        'canteens': json.loads(serializers.serialize('json', canteens)),
+        'stalls': json.loads(serializers.serialize('json', stalls)),
+        'products': json.loads(serializers.serialize('json', products)),
+    }
 
+    pretty_data = json.dumps(data, indent=4)
 
-
+    return HttpResponse(pretty_data, content_type='application/json')

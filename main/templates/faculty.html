@@ -30,7 +30,7 @@
                         </p>
                     </div>
                     <!-- Delete Button -->
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated and user.is_staff %}
                         <form action="{% url 'main:delete_faculty' item.faculty.id %}" method="post" class="mt-4">
                             {% csrf_token %}
                             <button type="submit" class="text-white bg-red-500 hover:bg-red-700 py-2 px-4 rounded">

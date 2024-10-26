@@ -225,11 +225,10 @@ def add_stall(request):
         form = StallForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('main:canteen')  
+            return redirect('main:faculty')  
     else:
         form = StallForm()
     return render(request, 'add_stall.html', {'form': form})
-
 
 @user_passes_test(is_admin, login_url='/login/')
 @login_required
@@ -237,7 +236,7 @@ def delete_stall(request, stall_id):
     if request.method == 'POST':
         stall = get_object_or_404(Stall, id=stall_id)
         stall.delete()
-        return redirect('main:faculty')  # Adjust the redirect as needed, e.g., 'main:stall_list'
+        return redirect('main:canteen')  # Adjust the redirect as needed, e.g., 'main:stall_list'
 
 @user_passes_test(is_admin, login_url='/login/')
 def add_product(request, stall_id=None):

@@ -15,7 +15,50 @@ def is_admin(user):
     return user.is_staff
 
 def homepage(request):
-    return render(request, 'homepage.html')
+    # Sample data for demonstration purposes
+    bites = [
+        {
+            'title': 'Faculty of Science',
+            'description': 'Explore the best canteen at the Faculty of Science...',
+            'image_url': 'images/makaravokasi.png',
+            # 'link': '/faculty/science'
+        },
+        {
+            'title': 'Faculty of Arts',
+            'description': 'Taste the unique dishes at the Faculty of Arts...',
+            'image_url': 'images/faculty_arts.png',
+            # 'link': '/faculty/arts'
+        },
+        {
+            'title': 'Faculty of Engineering',
+            'description': 'Find out the top-rated food at the Faculty of Engineering...',
+            'image_url': 'images/faculty_engineering.png',
+            # 'link': '/faculty/engineering'
+        },
+        {
+            'title': 'Faculty of Computer Science',
+            'description': 'Explore the best canteen at the Faculty of Science...',
+            'image_url': 'images/makaravokasi.png',
+            # 'link': '/faculty/science'
+        },
+        {
+            'title': 'Library',
+            'description': 'Taste the unique dishes at the Faculty of Arts...',
+            'image_url': 'images/faculty_arts.png',
+            # 'link': '/faculty/arts'
+        },
+        {
+            'title': 'Faculty of Politics and Social Studies',
+            'description': 'Find out the top-rated food at the Faculty of Engineering...',
+            'image_url': 'images/faculty_engineering.png',
+            # 'link': '/faculty/engineering'
+        },
+    ]
+    context = {
+        'bites': bites
+    }
+    return render(request, 'homepage.html', context)
+
 
 def register(request):
     form = UserCreationForm()

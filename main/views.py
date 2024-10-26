@@ -116,31 +116,58 @@ def canteen(request, name):
     context = {'data': data, 'faculty_name': name}
     return render(request, 'canteen.html', context)
 
-def stall(request, canteen_name):
-    canteen = Canteen.objects.get(name=canteen_name)
-    data = Stall.objects.filter(canteen=canteen)
-    context = {'data': data, 'canteen_name': canteen_name}
+def stall(request, canteen_name, stall_name):
+    canteen = get_object_or_404(Canteen, name=canteen_name)
+    stall = get_object_or_404(Stall, canteen=canteen, name=stall_name)
+    products = Product.objects.filter(stall=stall)
+
+    context = {
+        'products': products,
+        'canteen_name': canteen_name,
+        'stall_name': stall_name
+    }
     return render(request, 'stall.html', context)
 
-def product_list(request):
-    products = Product.objects.all()
-    context = {'products': products}
-    return render(request, 'product_list.html', context)
+
 
 @login_required(login_url='/login/')
 def user_homepage(request):
     return
 
 @user_passes_test(is_admin, login_url='/login/')
-def add_faculty(request):
+@login_required
+def add_faculty_and_canteen(request):
+    faculty_form = FacultyForm(request.POST or None)
+    canteen_form = CanteenForm(request.POST or None)
+    
     if request.method == 'POST':
-        form = FacultyForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('main:faculty')  # Adjust the redirect as needed
-    else:
-        form = FacultyForm()
-    return render(request, 'add_faculty.html', {'form': form})
+        if faculty_form.is_valid() and canteen_form.is_valid():
+            # Get or create the faculty
+            faculty, created = Faculty.objects.get_or_create(
+                name=faculty_form.cleaned_data['name'],
+                defaults={
+                    'nickname': faculty_form.cleaned_data['nickname'],
+                    'name_css_class': faculty_form.cleaned_data['name_css_class'],
+                    'image': faculty_form.cleaned_data['image']
+                }
+            )
+            
+            # If faculty was created, link canteen to it
+            if created:
+                canteen = canteen_form.save(commit=False)
+                canteen.faculty = faculty  # Link the canteen to the newly created faculty
+                canteen.save()
+                messages.success(request, f"Faculty '{faculty.name}' and Canteen '{canteen.name}' created successfully!")
+            else:
+                messages.error(request, f"Faculty '{faculty.name}' already exists.")
+            
+            return redirect('main:faculty')  # Redirect to the faculty page or any other page
+
+    context = {
+        'faculty_form': faculty_form,
+        'canteen_form': canteen_form
+    }
+    return render(request, 'add_faculty_and_canteen.html', context)
 
 @user_passes_test(is_admin, login_url='/login/')
 def add_canteen(request):
@@ -165,15 +192,21 @@ def add_stall(request):
     return render(request, 'add_stall.html', {'form': form})
 
 @user_passes_test(is_admin, login_url='/login/')
-def add_product(request):
+def add_product(request, stall_id=None):
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('main:product_list')  # Adjust the redirect as needed
+            return redirect('main:')  # Adjust as needed
     else:
-        form = ProductForm()
-    return render(request, 'add_product.html', {'form': form})
+        form = ProductForm(initial={'stall': stall_id} if stall_id else None)
+
+    context = {
+        'form': form,
+        'stall_id': stall_id,
+    }
+    return render(request, 'add_product.html', context)
+
 
 @user_passes_test(is_admin, login_url='/login/')
 @login_required

@@ -2,30 +2,29 @@
 {% load static %}
 
 {% block meta %}
-<title>Stalls From {{ canteen_name }}</title>
+<title>Products in {{ stall_name }}</title>
 {% endblock meta %}
 
 {% block content %}
 {% include 'navbar.html' %}
-
 <main class="min-h-screen bg-fixed" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
-    <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center"> Stalls From {{ canteen_name }} </h3>
+    <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center"> Products in {{ stall_name }} </h3>
     <div class="container mx-auto py-16">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {% for item in data %}
-            <a href="#">
-                <div class="bg-white shadow-md rounded-lg p-4 w-full h-full flex flex-col justify-between">
-                    <h6 class="mb-2 text-slate-800 text-xl font-semibold text-center">{{ item.name }}</h6>
-                    <div class="flex justify-center items-center h-36">
-                        <img src="{% static item.canteen.image %}" alt="{{ item.name }}" class="object-contain w-full h-full rounded-lg">
-                    </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between">
-                        <p>Cuisine Type: {{ item.cuisine }}</p>
+            {% for product in products %}
+            <div class="bg-white shadow-md rounded-lg p-4 w-full h-full flex flex-col justify-between">
+                <h6 class="mb-2 text-slate-800 text-xl font-semibold text-center">{{ product.name }}</h6>
+                <div class="flex justify-center items-center h-36">
+                    <img src="{% static product.image_url %}" alt="{{ product.name }}" class="object-contain w-full h-full rounded-lg">
+                </div>
+                <div class="p-4 flex-grow flex flex-col justify-between">
+                    <div class="text-center">
+                        Price: {{ product.price }}
                     </div>
                 </div>
-            </a>
+            </div>
             {% empty %}
-            <p>No stalls found in this canteen.</p>
+            <p>No products available in this stall.</p>
             {% endfor %}
         </div>
     </div>

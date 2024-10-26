@@ -128,6 +128,12 @@ def stall(request, canteen_name, stall_name):
     }
     return render(request, 'stall.html', context)
 
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    context = {
+        'product': product,
+    }
+    return render(request, 'product.html', context)
 
 
 @login_required(login_url='/login/')

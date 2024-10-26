@@ -21,39 +21,39 @@ def homepage(request):
         {
             'title': 'Faculty of Science',
             'description': 'Explore the best canteen at the Faculty of Science...',
-            'image_url': 'images/makaravokasi.png',
+            'image_url': 'images/fmipamakara.png',
             # 'link': '/faculty/science'
         },
         {
             'title': 'Faculty of Arts',
             'description': 'Taste the unique dishes at the Faculty of Arts...',
-            'image_url': 'images/faculty_arts.png',
+            'image_url': 'images/makarafib3.jpg',
             # 'link': '/faculty/arts'
         },
         {
-            'title': 'Faculty of Engineering',
-            'description': 'Find out the top-rated food at the Faculty of Engineering...',
-            'image_url': 'images/faculty_engineering.png',
-            # 'link': '/faculty/engineering'
-        },
-        {
             'title': 'Faculty of Computer Science',
-            'description': 'Explore the best canteen at the Faculty of Science...',
-            'image_url': 'images/makaravokasi.png',
+            'description': 'Uncover the best-rated dishes at the Faculty of Computer Science...',
+            'image_url': 'images/fasilkom1.png',
             # 'link': '/faculty/science'
         },
         {
             'title': 'Library',
-            'description': 'Taste the unique dishes at the Faculty of Arts...',
-            'image_url': 'images/faculty_arts.png',
+            'description': 'Get a taste of flavourful dishes at the Library...',
+            'image_url': 'images/perpusui.png',
             # 'link': '/faculty/arts'
         },
         {
             'title': 'Faculty of Politics and Social Studies',
-            'description': 'Find out the top-rated food at the Faculty of Engineering...',
-            'image_url': 'images/faculty_engineering.png',
+            'description': 'Find out the top-rated food at the Faculty of Politics and Social Studies...',
+            'image_url': 'images/fisipmakara.png',
             # 'link': '/faculty/engineering'
         },
+        {
+            'title': 'Faculty of Vocational Studies',
+            'description': 'Discover great foods at the Faculty of Vocational Studies...',
+            'image_url': 'images/makaravokasi.png',
+            # 'link': '/faculty/engineering'
+        }
     ]
     context = {
         'bites': bites,

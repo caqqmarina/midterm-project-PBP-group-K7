@@ -23,5 +23,5 @@ urlpatterns = [
     path('show_json/', show_json, name='show_json'),
     path('canteen/<str:canteen_name>/<str:stall_name>/', stall, name='stall'),
     path('add_product/<int:stall_id>/', add_product, name='add_product'),
-
+    path('login_and_register/', login_and_register, name='login_and_register'),
 ]

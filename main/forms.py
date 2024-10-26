@@ -16,7 +16,10 @@ class CanteenForm(forms.ModelForm):
 class StallForm(forms.ModelForm):
     class Meta:
         model = Stall
-        fields = ['name', 'canteen', 'cuisine']
+        fields = ['name', 'cuisine', 'canteen']  
+
+    cuisine = forms.ChoiceField(choices=Stall.CUISINE_CHOICES, label="Cuisine Type")
+    canteen = forms.ModelChoiceField(queryset=Canteen.objects.all(), label="Canteen")
 
 class ProductForm(forms.ModelForm):
     class Meta:

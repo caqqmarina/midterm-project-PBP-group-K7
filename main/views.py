@@ -219,16 +219,17 @@ def add_canteen(request):
         form = CanteenForm()
     return render(request, 'add_canteen.html', {'form': form})
 
-@user_passes_test(is_admin, login_url='/login/')
+@login_required
 def add_stall(request):
     if request.method == 'POST':
         form = StallForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('main:stall_list')  # Adjust the redirect as needed
+            return redirect('main:canteen')  
     else:
         form = StallForm()
     return render(request, 'add_stall.html', {'form': form})
+
 
 @user_passes_test(is_admin, login_url='/login/')
 @login_required

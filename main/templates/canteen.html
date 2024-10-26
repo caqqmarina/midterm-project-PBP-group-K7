@@ -32,7 +32,7 @@
 
                 <div class="flex justify-center mt-4">
                     <!-- Delete Stall Button -->
-                    {% if user.is_authenticated and user.is_admin %}
+                    {% if user.is_authenticated and user.is_staff %}
                     <form action="{% url 'main:delete_stall' item.id %}" method="post" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">

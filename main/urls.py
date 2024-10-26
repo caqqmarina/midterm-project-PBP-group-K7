@@ -1,8 +1,8 @@
 from django.urls import path
 # from main.views import show_main
 from main.views import homepage, register, login_user, logout_user \
-    , faculty, canteen, add_faculty_and_canteen, user_homepage, add_canteen, add_stall, \
-    add_product, delete_faculty, show_json, stall, login_and_register, product_detail
+    , faculty, canteen, add_faculty_and_canteen, user_homepage, add_canteen, add_stall, delete_stall, \
+    add_product, delete_faculty, show_json, stall, product_detail
 
 app_name = 'main'
 
@@ -18,6 +18,7 @@ urlpatterns = [
     path('user_homepage/', user_homepage, name='user_homepage'),  # User homepage
     path('add_canteen/', add_canteen, name='add_canteen'),  # Admin canteen addition
     path('add_stall/', add_stall, name='add_stall'),        # Admin stall addition
+    path('stall/delete/<int:stall_id>/', delete_stall, name='delete_stall'), # Admin delete addition
     path('add_product/', add_product, name='add_product'),  # Admin product addition
     path('faculty/delete/<int:faculty_id>/', delete_faculty, name='delete_faculty'),
     path('show_json/', show_json, name='show_json'),

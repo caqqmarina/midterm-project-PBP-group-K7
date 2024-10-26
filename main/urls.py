@@ -2,7 +2,7 @@ from django.urls import path
 # from main.views import show_main
 from main.views import homepage, register, login_user, logout_user \
     , faculty, canteen, add_faculty_and_canteen, user_homepage, add_canteen, add_stall, \
-    add_product, delete_faculty, show_json, stall, login_and_register
+    add_product, delete_faculty, show_json, stall, login_and_register, product_detail
 
 app_name = 'main'
 
@@ -23,6 +23,5 @@ urlpatterns = [
     path('show_json/', show_json, name='show_json'),
     path('canteen/<str:canteen_name>/<str:stall_name>/', stall, name='stall'),
     path('add_product/<int:stall_id>/', add_product, name='add_product'),
-    path('login_and_register/', login_and_register, name='login_and_register'), 
 
 ]

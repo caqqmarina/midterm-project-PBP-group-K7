@@ -18,3 +18,50 @@
     background-size: 200% 100%;
     animation: shine 3s infinite;
 }
+
+.swiper {
+    width: 500px; /* Set a fixed width for the Swiper */
+    height: 400; /* Adjust height based on content */
+    margin: 0 auto; /* Center the Swiper */
+    position: relative;
+}
+
+.swiper-slide {
+    width: 100%; /* Make the slides fit the Swiper container */
+    height: auto; /* Let the height adjust based on the content */
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+}
+
+.bg-white img {
+    border-radius: auto; /* Ensure the image has matching border-radius */
+    display: block; /* Ensure there is no gap around the image */
+
+}
+@media (min-width: 200px) {
+    .swiper-slide {
+        width: 400px; /* Adjust the width for tablet screens */
+    }
+}
+
+@media (min-width: 300px) {
+    .swiper-slide {
+        width: 500px; /* Adjust the width for desktop screens */
+    }
+}
+
+/* Move the next button outside */
+.swiper-button-next {
+    right: 0; /* Move to the right, outside the card */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%);
+    color: #000; /* Optional: Change arrow color */
+}
+
+/* Move the previous button outside */
+.swiper-button-prev {
+    left: 0; /* Move to the left, outside the card */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%);
+    color: #000; /* Optional: Change arrow color */
+}

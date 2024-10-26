@@ -25,7 +25,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Account created successfully!')
-            return redirect('main:homepage')
+            return redirect('main:login')
     context = {
         'form': form
     }
@@ -75,7 +75,7 @@ def canteen(request, name):
 def user_homepage(request):
     return
 
-
+@user_passes_test(is_admin, login_url='/login/')
 def add_faculty(request):
     if request.method == 'POST':
         form = FacultyForm(request.POST)

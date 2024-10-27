@@ -19,26 +19,28 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {% for item in data %}
-            <div class="bg-white shadow-md rounded-lg p-4 w-full h-full flex flex-col justify-between">
-                <h6 class="mb-2 text-slate-800 text-xl font-semibold text-center">{{ item.name }}</h6>
-                <div class="flex justify-center items-center h-36">
-                    <img src="{% static item.canteen.image %}" alt="Faculty 1" class="object-contain w-full h-full rounded-lg">
-                </div>
-                <div class="p-4 flex-grow flex flex-col justify-between">
-                    <div class="{{ item.canteen.faculty.name_css_class }}">
-                        Cuisine: {{ item.cuisine }}
+            <a href="{% url 'main:stall' canteen_name=faculty_name stall_name=item.name %}">
+                <div class="bg-white shadow-md rounded-lg p-4 w-full h-full flex flex-col justify-between">
+                    <h6 class="mb-2 text-slate-800 text-xl font-semibold text-center">{{ item.name }}</h6>
+                    <div class="flex justify-center items-center h-36">
+                        <img src="{% static item.canteen.image %}" alt="Faculty 1" class="object-contain w-full h-full rounded-lg">
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col justify-between">
+                        <div class="{{ item.canteen.faculty.name_css_class }}">
+                            Cuisine: {{ item.cuisine }}
+                        </div>
+                    </div>
+                    <div class="flex justify-center mt-4">
+                        <!-- Delete Stall Button -->
+                        <form action="{% url 'main:delete_stall' item.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Delete Stall
+                            </button>
+                        </form>
                     </div>
                 </div>
-                <div class="flex justify-center mt-4">
-                    <!-- Delete Stall Button -->
-                    <form action="{% url 'main:delete_stall' item.id %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Delete Stall
-                        </button>
-                    </form>
-                </div>
-            </div>
+            </a>
             {% empty %}
             <p>No stalls exist at this location.</p>
             {% endfor %}

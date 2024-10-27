@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from main.models import Product, Faculty, Canteen, Stall
+from main.models import Product, Faculty, Canteen, Stall, ProductReview, FavoriteProduct
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from .forms import FacultyForm, CanteenForm, StallForm, ProductForm
+from django.db import IntegrityError
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 import json
 import datetime
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
@@ -82,7 +85,7 @@ def faculty(request):
     return render(request, 'faculty.html', context)
 
 def canteen(request, name):
-    canteen = Canteen.objects.get(name=name)
+    canteen = get_object_or_404(Canteen, name=name)
     cuisine_filter = request.GET.get('cuisine')  # Get cuisine filter from query parameters if available
 
     stalls = Stall.objects.filter(canteen=canteen)  # Get all stalls for the canteen
@@ -90,12 +93,31 @@ def canteen(request, name):
     if cuisine_filter:  # If a cuisine filter is applied
         stalls = stalls.filter(cuisine=cuisine_filter)  # Filter stalls by cuisine
 
+    # Calculate price range for each stall
+    stalls_with_prices = []
+    for stall in stalls:
+        products = Product.objects.filter(stall=stall)
+        if products.exists():
+            min_price = products.order_by('price').first().price
+            max_price = products.order_by('-price').first().price
+            stalls_with_prices.append({
+                'stall': stall,
+                'min_price': min_price,
+                'max_price': max_price
+            })
+        else:
+            stalls_with_prices.append({
+                'stall': stall,
+                'min_price': None,
+                'max_price': None
+            })
+
     # Pass the list of available cuisines and filtered stalls to the template
     cuisines = Stall.objects.filter(canteen=canteen).values_list('cuisine', flat=True).distinct()  # Get distinct cuisines from filtered stalls
     context = {
         'faculty_name': canteen.faculty.name,
         'canteen_name': canteen.name,
-        'data': stalls,
+        'stalls_with_prices': stalls_with_prices,
         'cuisines': cuisines,
         'current_cuisine': cuisine_filter,
     }
@@ -132,11 +154,11 @@ def product_detail(request, product_id):
     return render(request, 'product.html', context)
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/login_and_register/')
 def user_homepage(request):
     return
 
-@user_passes_test(is_admin, login_url='/login/')
+@user_passes_test(is_admin, login_url='/login_and_register/')
 @login_required
 def add_faculty_and_canteen(request):
     faculty_form = FacultyForm(request.POST or None)
@@ -171,7 +193,7 @@ def add_faculty_and_canteen(request):
     }
     return render(request, 'add_faculty_and_canteen.html', context)
 
-@user_passes_test(is_admin, login_url='/login/')
+@user_passes_test(is_admin, login_url='/login_and_register/')
 def add_canteen(request):
     if request.method == 'POST':
         form = CanteenForm(request.POST)
@@ -182,7 +204,7 @@ def add_canteen(request):
         form = CanteenForm()
     return render(request, 'add_canteen.html', {'form': form})
 
-@user_passes_test(is_admin, login_url='/login/')
+@user_passes_test(is_admin, login_url='/login_and_register/')
 def add_stall(request):
     referer = request.META.get('HTTP_REFERER', reverse('main:homepage'))
     if request.method == 'POST':
@@ -195,7 +217,7 @@ def add_stall(request):
         form = StallForm()
     return render(request, 'add_stall.html', {'form': form, 'referer': referer})
 
-@user_passes_test(is_admin, login_url='/login/')
+@user_passes_test(is_admin, login_url='/login_and_register/')
 def delete_stall(request, stall_id):
     if request.method == 'POST':
         stall = get_object_or_404(Stall, id=stall_id)
@@ -203,7 +225,7 @@ def delete_stall(request, stall_id):
         stall.delete()
         return redirect(reverse('main:canteen', kwargs={'name': canteen_name})) 
     
-@user_passes_test(is_admin, login_url='/login/')
+@user_passes_test(is_admin, login_url='/login_and_register/')
 def delete_product(request, product_id):
     if request.method == 'POST':
         product = get_object_or_404(Product, id=product_id)
@@ -212,7 +234,7 @@ def delete_product(request, product_id):
         product.delete()
         return redirect(reverse('main:stall', kwargs={'canteen_name': canteen_name, 'stall_name': stall_name}))
 
-@user_passes_test(is_admin, login_url='/login/')
+@user_passes_test(is_admin, login_url='/login_and_register/')
 @login_required
 def add_product(request, stall_id=None):
     stall = get_object_or_404(Stall, id=stall_id)  # Fetch the stall instance
@@ -237,13 +259,96 @@ def add_product(request, stall_id=None):
     return render(request, 'add_product.html', context)
 
 
-@user_passes_test(is_admin, login_url='/login/')
-@login_required
+@user_passes_test(is_admin, login_url='/login_and_register/')
 def delete_faculty(request, faculty_id):
     if request.method == 'POST':
         faculty = get_object_or_404(Faculty, id=faculty_id)  # Match against 'id' field
         faculty.delete()
         return redirect('main:faculty')  # Redirect to the faculty listing page
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    reviews = ProductReview.objects.filter(product=product)
+    is_favorited = False
+    if request.user.is_authenticated:
+        is_favorited = FavoriteProduct.objects.filter(user=request.user, product=product).exists()
+    context = {
+        'product': product,
+        'reviews': reviews,
+        'is_favorited': is_favorited,
+    }
+    return render(request, 'product.html', context)
+
+@require_POST
+@login_required(login_url='/login_and_register/')
+def submit_review(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    rating = int(request.POST.get('rating'))
+    comment = request.POST.get('comment', '')
+
+    try:
+        review, created = ProductReview.objects.get_or_create(
+            product=product, user=request.user,
+            defaults={'rating': rating, 'comment': comment}
+        )
+        if not created:
+            review.rating = rating
+            review.comment = comment
+            review.save()
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': True,
+                'review': {
+                    'id': review.id,
+                    'rating': review.rating,
+                    'comment': review.comment,
+                    'user': review.user.username,
+                    'created_at': review.created_at.strftime('%B %d, %Y')
+                }
+            })
+        messages.success(request, 'Your review has been submitted successfully.')
+        return redirect('main:product_detail', product_id=product.id)
+    except IntegrityError:
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': 'You have already reviewed this product.'})
+        messages.error(request, 'You have already reviewed this product.')
+        return redirect('main:product_detail', product_id=product.id)
+
+@user_passes_test(is_admin, login_url='/login_and_register/')
+def delete_review(request, review_id):
+    review = get_object_or_404(ProductReview, id=review_id)
+    product = review.product  # Assuming ProductReview has a ForeignKey to Product
+    review.delete()
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'success': True, 'review_id': review_id})
+    messages.success(request, 'Review deleted successfully.')
+    return redirect('main:product_detail', product_id=product.id)
+
+@login_required(login_url='/login_and_register/')
+def favorite_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    favorite, created = FavoriteProduct.objects.get_or_create(user=request.user, product=product)
+    if created:
+        messages.success(request, 'Product added to favorites.')
+    else:
+        messages.info(request, 'Product is already in your favorites.')
+    return redirect('main:product_detail', product_id=product.id)
+
+@login_required(login_url='/login_and_register/')
+def unfavorite_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    favorite = get_object_or_404(FavoriteProduct, user=request.user, product=product)
+    favorite.delete()
+    messages.success(request, 'Product removed from favorites.')
+    return redirect('main:product_detail', product_id=product.id)
+
+@login_required(login_url='/login_and_register/')
+def favorite_products(request):
+    favorites = FavoriteProduct.objects.filter(user=request.user).select_related('product')
+    context = {
+        'favorites': favorites
+    }
+    return render(request, 'favorite_products.html', context)
 
 def show_json(request):
     faculties = Faculty.objects.all()

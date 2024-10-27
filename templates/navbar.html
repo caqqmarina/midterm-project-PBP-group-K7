@@ -14,7 +14,14 @@
             <a href="{% url 'main:faculty' %}" class="text-lg text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
                 Faculty
             </a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'main:favorite_products' %}" class="text-lg text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+                Favorite Products
+            </a>
+            {% endif %}
         </div>
+
+        
 
         {% if user.is_staff %}
             <div class="flex space-x-8">

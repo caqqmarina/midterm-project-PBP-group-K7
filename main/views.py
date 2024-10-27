@@ -149,17 +149,40 @@ def canteen(request, name):
     context = {'data': data, 'faculty_name': name}
     return render(request, 'canteen.html', context)
 
+# def stall(request, canteen_name, stall_name):
+#     canteen = get_object_or_404(Canteen, name=canteen_name)
+#     stall = get_object_or_404(Stall, canteen=canteen, name=stall_name)
+#     products = Product.objects.filter(stall=stall)
+
+#     context = {
+#         'products': products,
+#         'canteen_name': canteen_name,
+#         'stall_name': stall_name
+#     }
+#     return render(request, 'stall.html', context)
+
 def stall(request, canteen_name, stall_name):
     canteen = get_object_or_404(Canteen, name=canteen_name)
-    stall = get_object_or_404(Stall, canteen=canteen, name=stall_name)
-    products = Product.objects.filter(stall=stall)
-
-    context = {
-        'products': products,
-        'canteen_name': canteen_name,
-        'stall_name': stall_name
-    }
-    return render(request, 'stall.html', context)
+    
+    # Filter stalls by canteen and name instead of using get_object_or_404
+    stalls = Stall.objects.filter(canteen=canteen, name=stall_name)
+    
+    # If there are multiple stalls, select the first one or handle the situation as needed
+    if stalls.exists():
+        stall = stalls.first()  # Take the first stall that matches
+        products = Product.objects.filter(stall=stall)
+        
+        context = {
+            'products': products,
+            'canteen_name': canteen_name,
+            'stall_name': stall_name,  # <-- Added the missing comma here
+            'stall': stall,
+        }
+        return render(request, 'stall.html', context)
+    else:
+        # Handle case where no stalls are found if needed
+        messages.error(request, "No stalls found with that name.")
+        return redirect('main:canteen', name=canteen_name)
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -219,34 +242,41 @@ def add_canteen(request):
         form = CanteenForm()
     return render(request, 'add_canteen.html', {'form': form})
 
-@user_passes_test(is_admin, login_url='/login/')
+@login_required
 def add_stall(request):
     if request.method == 'POST':
         form = StallForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('main:stall_list')  # Adjust the redirect as needed
+            return redirect('main:faculty')  
     else:
         form = StallForm()
     return render(request, 'add_stall.html', {'form': form})
 
-@user_passes_test(is_admin, login_url='/login/')
 @login_required
 def delete_stall(request, stall_id):
     if request.method == 'POST':
         stall = get_object_or_404(Stall, id=stall_id)
         stall.delete()
-        return redirect('main:faculty')  # Adjust the redirect as needed, e.g., 'main:stall_list'
+        return redirect('main:canteen')  # Adjust the redirect as needed, e.g., 'main:stall_list'
 
 @user_passes_test(is_admin, login_url='/login/')
+@login_required
 def add_product(request, stall_id=None):
+    stall = get_object_or_404(Stall, id=stall_id)  # Fetch the stall instance
+
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('main:')  # Adjust as needed
+            product = form.save(commit=False)
+            product.stall = stall  # Associate product with the stall
+            product.save()
+            messages.success(request, 'Product added successfully!')
+
+            # Redirect to the stall page using canteen_name and stall_name
+            return redirect('main:stall', canteen_name=stall.canteen.name, stall_name=stall.name)
     else:
-        form = ProductForm(initial={'stall': stall_id} if stall_id else None)
+        form = ProductForm(initial={'stall': stall_id})
 
     context = {
         'form': form,

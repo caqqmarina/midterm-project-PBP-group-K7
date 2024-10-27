@@ -2,29 +2,39 @@
 {% load static %}
 
 {% block meta %}
-<title>Products in {{ stall_name }}</title>
+<title>{{ stall_name }} - Products</title>
 {% endblock meta %}
 
 {% block content %}
 {% include 'navbar.html' %}
+
 <main class="min-h-screen bg-fixed" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
-    <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center"> Products in {{ stall_name }} </h3>
     <div class="container mx-auto py-16">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center">Products from {{ stall_name }}</h3>
+        
+        <!-- stall.html -->
+        {% if user.is_authenticated and user.is_staff %}
+        <div class="text-center my-4">
+            <a href="{% url 'main:add_product' stall_id=stall.id %}" 
+            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                Add Product
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Products Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
             {% for product in products %}
-            <div class="bg-white shadow-md rounded-lg p-4 w-full h-full flex flex-col justify-between">
-                <h6 class="mb-2 text-slate-800 text-xl font-semibold text-center">{{ product.name }}</h6>
-                <div class="flex justify-center items-center h-36">
-                    <img src="{% static product.image_url %}" alt="{{ product.name }}" class="object-contain w-full h-full rounded-lg">
+                <div class="bg-white shadow-md rounded-lg p-4 w-full h-full flex flex-col justify-between">
+                    <h6 class="mb-2 text-slate-800 text-xl font-semibold text-center">{{ product.name }}</h6>
+                    <p class="text-center text-gray-600 mb-2">${{ product.price }}</p>
+                    <a href="{% url 'main:product_detail' product.id %}" 
+                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center">
+                        View Details
+                    </a>
                 </div>
-                <div class="p-4 flex-grow flex flex-col justify-between">
-                    <div class="text-center">
-                        Price: {{ product.price }}
-                    </div>
-                </div>
-            </div>
             {% empty %}
-            <p>No products available in this stall.</p>
+                <p class="text-center text-gray-600">No products available in this stall.</p>
             {% endfor %}
         </div>
     </div>

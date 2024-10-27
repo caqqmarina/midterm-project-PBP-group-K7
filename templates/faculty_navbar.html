@@ -1,0 +1,48 @@
+{% load static %}
+<nav class="p-4 shadow relative" style="background: url('{% static 'images/danaubg2.png' %}') no-repeat center center fixed; background-size: cover; height: 250px; opacity: 0.9;">
+    <div class="container mx-auto flex justify-between items-center" style="height: 100px;">
+        <!-- Logo as Text -->
+        <a href="{% url 'main:homepage' %}" class="text-4xl" style="font-family: 'Damion', cursive; color: #a2330b;">
+            Bite@UI
+        </a>
+
+        <!-- Navigation Links -->
+        <div class="flex space-x-12">
+            <a href="{% url 'main:homepage' %}" class="text-lg text-white hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+                Home
+            </a>
+            <a href="{% url 'main:faculty' %}" class="text-lg text-white hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+                Faculty
+            </a>
+        </div>
+
+        {% if user.is_staff %}
+            <div class="flex space-x-8">
+                <a href="{% url 'main:add_faculty_and_canteen' %}" class="text-white bg-green-500 hover:bg-green-700 py-2 px-4 rounded">
+                    Add Faculty and Canteen
+                </a>                
+            </div>
+        {% endif %}
+
+        <!-- Authentication Links -->
+        <div class="flex space-x-4 items-center">
+            {% if user.is_authenticated %}
+                <a href="{% url 'main:logout' %}" class="text-lg text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+                    Log Out
+                </a>
+            {% else %}
+                <a href="{% url 'main:login_and_register' %}?action=login" class="text-lg text-black hover:text-gray-700 transition">
+                    Log In
+                </a>
+                <a href="{% url 'main:login_and_register' %}?action=signup" class="text-lg text-white bg-black px-4 py-2 rounded-full hover:bg-gray-700 transition">
+                    Register
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Faculties Text in the Lower Left Corner -->
+    <div class="absolute bottom-4 left-4 text-4xl text-white" style="font-family: 'Doppio One';">
+        Faculties
+    </div>
+</nav>

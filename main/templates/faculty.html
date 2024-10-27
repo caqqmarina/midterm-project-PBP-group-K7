@@ -6,9 +6,9 @@
 {% endblock meta %}
 
 {% block content %}
-{% include 'navbar.html' %}
+{% include 'faculty_navbar.html' %}
 
-<main class="min-h-screen bg-fixed" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
+<main class="min-h-screen bg-fixed font-doppio-one" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
     <div class="container mx-auto py-16">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {% for item in data %}

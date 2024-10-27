@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block meta %}
 <title>{{ product.name }} - Product Details</title>
@@ -18,7 +19,7 @@
                     <img src="{% static 'images/default_product.png' %}" alt="No image available" class="object-contain w-full h-64 rounded-lg">
                 {% endif %}
             </div>
-            <p class="text-center text-lg font-semibold text-slate-700 mb-2">Price: ${{ product.price }}</p>
+            <p class="text-center text-lg font-semibold text-slate-700 mb-2">Price: Rp{{ product.price|format_price }}</p>
             <div class="text-center">
                 <p class="text-gray-600">Stall: {{ product.stall.name }}</p>
                 <p class="text-gray-600">Canteen: {{ product.stall.canteen.name }}</p>

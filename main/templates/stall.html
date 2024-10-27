@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block meta %}
 <title>{{ stall_name }} - Products</title>
@@ -27,7 +28,7 @@
             {% for product in products %}
                 <div class="bg-white shadow-md rounded-lg p-4 w-full h-full flex flex-col justify-between">
                     <h6 class="mb-2 text-slate-800 text-xl font-semibold text-center">{{ product.name }}</h6>
-                    <p class="text-center text-gray-600 mb-2">${{ product.price }}</p>
+                    <p class="text-center text-gray-600 mb-2">Rp{{ product.price|format_price }}</p>
                     <a href="{% url 'main:product_detail' product.id %}" 
                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center">
                         View Details

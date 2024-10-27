@@ -26,10 +26,10 @@ def homepage(request):
             # 'link': '/faculty/science'
         },
         {
-            'title': 'Faculty of Arts',
-            'description': 'Taste the unique dishes at the Faculty of Arts...',
-            'image_url': 'images/makarafib3.jpg',
-            # 'link': '/faculty/arts'
+            'title': 'Faculty of Cultural Sciences',
+            'description': 'Taste the unique dishes at the Faculty of Cultural Sciences...',
+            'image_url': 'images/makarafib.png',
+            'link': '/canteen/KANSAS'
         },
         {
             'title': 'Faculty of Computer Science',
@@ -251,23 +251,25 @@ def add_canteen(request):
         form = CanteenForm()
     return render(request, 'add_canteen.html', {'form': form})
 
-@login_required
+@user_passes_test(is_admin, login_url='/login/')
 def add_stall(request):
     if request.method == 'POST':
         form = StallForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('main:faculty')  
+            stall = form.save()
+            canteen_name = stall.canteen.name
+            return redirect(reverse('main:canteen', kwargs={'name': canteen_name}))
     else:
         form = StallForm()
     return render(request, 'add_stall.html', {'form': form})
 
-@login_required
+@user_passes_test(is_admin, login_url='/login/')
 def delete_stall(request, stall_id):
     if request.method == 'POST':
         stall = get_object_or_404(Stall, id=stall_id)
+        canteen_name = stall.canteen.name
         stall.delete()
-        return redirect('main:canteen')  # Adjust the redirect as needed, e.g., 'main:stall_list'
+        return redirect(reverse('main:canteen', kwargs={'name': canteen_name}))  # Adjust the redirect as needed, e.g., 'main:stall_list'
 
 @user_passes_test(is_admin, login_url='/login/')
 @login_required

@@ -149,17 +149,39 @@ def canteen(request, name):
     context = {'data': data, 'faculty_name': name}
     return render(request, 'canteen.html', context)
 
+# def stall(request, canteen_name, stall_name):
+#     canteen = get_object_or_404(Canteen, name=canteen_name)
+#     stall = get_object_or_404(Stall, canteen=canteen, name=stall_name)
+#     products = Product.objects.filter(stall=stall)
+
+#     context = {
+#         'products': products,
+#         'canteen_name': canteen_name,
+#         'stall_name': stall_name
+#     }
+#     return render(request, 'stall.html', context)
+
 def stall(request, canteen_name, stall_name):
     canteen = get_object_or_404(Canteen, name=canteen_name)
-    stall = get_object_or_404(Stall, canteen=canteen, name=stall_name)
-    products = Product.objects.filter(stall=stall)
-
-    context = {
-        'products': products,
-        'canteen_name': canteen_name,
-        'stall_name': stall_name
-    }
-    return render(request, 'stall.html', context)
+    
+    # Filter stalls by canteen and name instead of using get_object_or_404
+    stalls = Stall.objects.filter(canteen=canteen, name=stall_name)
+    
+    # If there are multiple stalls, select the first one or handle the situation as needed
+    if stalls.exists():
+        stall = stalls.first()  # Take the first stall that matches
+        products = Product.objects.filter(stall=stall)
+        
+        context = {
+            'products': products,
+            'canteen_name': canteen_name,
+            'stall_name': stall_name
+        }
+        return render(request, 'stall.html', context)
+    else:
+        # Handle case where no stalls are found if needed
+        messages.error(request, "No stalls found with that name.")
+        return redirect('main:canteen', name=canteen_name)
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)

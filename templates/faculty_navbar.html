@@ -1,19 +1,28 @@
 {% load static %}
-<nav class="p-4 shadow relative" style="background: url('{% static 'images/danaubg2.png' %}') no-repeat center center fixed; background-size: cover; height: 250px; opacity: 0.9;">
-    <div class="container mx-auto flex justify-between items-center" style="height: 100px;">
+<nav class="p-4 shadow relative" style="height: 250px;">
+    <!-- Background Image -->
+    <div class="absolute inset-0" style="background: url('{% static 'images/danaubg2.png' %}') no-repeat center center fixed; background-size: cover; opacity: 0.8; z-index: -1;"></div>
+    
+    <!-- Navbar Content -->
+    <div class="container mx-auto flex justify-between items-center relative" style="height: 100px;">
         <!-- Logo as Text -->
-        <a href="{% url 'main:homepage' %}" class="text-4xl" style="font-family: 'Damion', cursive; color: #a2330b;">
+        <a href="{% url 'main:homepage' %}" class="text-4xl" style="font-family: 'Damion', cursive; color: #6B2727;">
             Bite@UI
         </a>
 
         <!-- Navigation Links -->
         <div class="flex space-x-12">
-            <a href="{% url 'main:homepage' %}" class="text-lg text-white hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+            <a href="{% url 'main:homepage' %}" class="text-lg text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
                 Home
             </a>
-            <a href="{% url 'main:faculty' %}" class="text-lg text-white hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+            <a href="{% url 'main:faculty' %}" class="text-lg text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
                 Faculty
             </a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'main:favorite_products' %}" class="text-lg text-black hover:text-gray-700 transition" style="font-family: 'Doppio One';">
+                Favorite Products
+            </a>
+            {% endif %}
         </div>
 
         {% if user.is_staff %}

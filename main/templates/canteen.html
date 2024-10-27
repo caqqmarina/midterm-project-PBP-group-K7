@@ -10,31 +10,48 @@
 {% include 'navbar.html' %}
 
 <main class="min-h-screen bg-fixed font-doppio-one" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
-    <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center"> Stalls From {{ canteen_name }} </h3>
+    <!-- Canteen Name and Description -->
     
-    <!-- Cuisine Filter Dropdown -->
-    <div class="flex justify-center my-4">
-        <form method="get">
-            <select name="cuisine" onchange="this.form.submit()" class="border p-2 rounded">
-                <option value="" >All Cuisines</option>
-                {% for cuisine in cuisines %}
-                    <option value="{{ cuisine }}" {% if cuisine == current_cuisine %}selected{% endif %}>{{ cuisine }}</option>
-                {% endfor %}
-            </select>
-        </form>
+    <!-- Canteen Name and Description -->
+    <h1 class="text-4xl font-bold text-center" style="font-family: 'Doppio One'; color: black;">
+        {{ canteen_name }}
+    </h1>
+    <p class="text-2xl mt-2 text-center" style="font-family: 'Damion'; color: black;">
+        Canteen Stalls
+    </p>
+
+
+    <!-- Curved Image Box -->
+    <div class="container mx-auto mt-5">
+        <div class="overflow-hidden rounded-lg" style="max-width: 80%; margin: 0 auto;">
+            <img src="{% static 'images/peopleeatingrandom.png' %}" alt="People Eating" class="rounded-lg shadow-lg w-full h-40 mb-8 md:mb-0">
+        </div>
     </div>
 
-    <div class="container mx-auto py-16">
-        <div class="flex justify-center my-4">
+    <!-- Cuisine Filter Dropdown and Add Stall Button -->
+    <div class="flex justify-center my-8">
+        <div class="flex space-x-4">
+            <!-- Cuisine Filter Dropdown -->
+            <form method="get">
+                <select name="cuisine" onchange="this.form.submit()" class="border p-2 rounded">
+                    <option value="">All Cuisines</option>
+                    {% for cuisine in cuisines %}
+                        <option value="{{ cuisine }}" {% if cuisine == current_cuisine %}selected{% endif %}>{{ cuisine }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <!-- Add Stall Button (shown only for staff) -->
             {% if user.is_authenticated and user.is_staff %}
-                <a href="{% url 'main:add_stall' %}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{% url 'main:add_stall' %}" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
                     Add Stall
                 </a>
-            {% else %}
-        
             {% endif %}
         </div>
+    </div>
 
+    <!-- Stalls List -->
+    <div class="container mx-auto py-16">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for item in stalls_with_prices %}
             <a href="{% url 'main:stall' canteen_name=item.stall.canteen.name stall_name=item.stall.name %}">
@@ -70,7 +87,7 @@
                                 Delete Stall
                             </button>
                         </form>
-                    {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </a>

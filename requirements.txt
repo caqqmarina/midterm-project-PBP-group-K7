@@ -3,4 +3,5 @@ gunicorn
 whitenoise
 psycopg2-binary
 requests
+coverage
 urllib3

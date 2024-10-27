@@ -141,12 +141,21 @@ def faculty(request):
     context = {'data': data}
     return render(request, 'faculty.html', context)
 
-def canteen(request, name):
-    canteen = Canteen.objects.get(name=name)
+def canteen(request, faculty_name):
+    cuisine_filter = request.GET.get('cuisine')  # Get cuisine filter from query parameters if available
+    stalls = Stall.objects.filter(canteen__faculty__name=faculty_name)  # Get all stalls for the faculty
+    
+    if cuisine_filter:  # If a cuisine filter is applied
+        stalls = stalls.filter(cuisine=cuisine_filter)  # Filter stalls by cuisine
 
-    data = Stall.objects.filter(canteen=canteen)
-
-    context = {'data': data, 'faculty_name': name}
+    # Pass the list of available cuisines and filtered stalls to the template
+    cuisines = Stall.objects.values_list('cuisine', flat=True).distinct()  # Get distinct cuisines
+    context = {
+        'faculty_name': faculty_name,
+        'data': stalls,
+        'cuisines': cuisines,
+        'current_cuisine': cuisine_filter,
+    }
     return render(request, 'canteen.html', context)
 
 # def stall(request, canteen_name, stall_name):

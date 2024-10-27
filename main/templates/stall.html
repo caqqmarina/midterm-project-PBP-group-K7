@@ -11,7 +11,12 @@
 
 <main class="min-h-screen bg-fixed" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
     <div class="container mx-auto py-16">
-        <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center">Products from {{ stall_name }}</h3>
+        <h2 class="text-4xl font-bold text-center" style="font-family: 'Doppio One'; color: black;">
+            {{ stall_name }}
+        </h2>
+        <p class="text-2xl mt-2 text-center" style="font-family: 'Damion'; color: black;">
+            Stall products
+        </p>
         
         <!-- stall.html -->
         {% if user.is_authenticated and user.is_staff %}

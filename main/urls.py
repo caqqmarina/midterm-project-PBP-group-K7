@@ -3,7 +3,7 @@
 from django.urls import path
 from main.views import (
     homepage, logout_user, faculty, canteen, stall, product_detail, 
-    add_faculty_and_canteen, user_homepage, add_canteen, add_stall, delete_stall, 
+    user_homepage, add_canteen, add_stall, delete_stall, 
     add_product, delete_faculty, show_json, login_and_register, delete_product,
     submit_review, delete_review, favorite_product, unfavorite_product, favorite_products,
     add_faculty
@@ -36,7 +36,6 @@ urlpatterns = [
     # CRUD operations (admin restricted)
     path('add-faculty/', add_faculty, name='add_faculty'),  # Add this line
     path('add-canteen/', add_canteen, name='add_canteen'),  # Add this line
-    path('add-faculty-canteen/', add_faculty_and_canteen, name='add_faculty_and_canteen'),
     path('user_homepage/', user_homepage, name='user_homepage'),          # Admin/User homepage
     # path('add_canteen/', add_canteen, name='add_canteen'),                # Admin: add canteen
     path('add_stall/', add_stall, name='add_stall'),                      # Admin: add stall

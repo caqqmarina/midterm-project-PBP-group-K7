@@ -1,17 +1,31 @@
 {% extends 'base.html' %}
-{% load static %} 
+{% load static %}
+
+{% block meta %}
+<title>Add New Stall</title>
+{% endblock meta %}
 
 {% block content %}
-<main class="min-h-screen bg-gray-100 p-8">
-    <h2 class="text-2xl font-semibold text-center mb-4">Add New Stall</h2>
-    <form method="POST" class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8">
+{% include 'navbar.html' %}
+
+<div class="flex flex-col min-h-screen bg-gray-100">
+  <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+    <h2 class="text-3xl font-bold text-center mb-8 text-orange-600">Add New Stall</h2>
+  
+    <div class="bg-white shadow-md rounded-lg p-6 form-style">
+      <form method="POST" action="" class="space-y-6">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="hidden" name="referer" value="{{ referer }}">
-        <div class="flex justify-end mt-4">
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Add Stall</button>
+        <div class="flex justify-center mt-6">
+          <button type="submit" class="bg-orange-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-orange-700 transition duration-300 ease-in-out w-full">
+            Add Stall
+          </button>
         </div>
-    </form>
-    <a href="{{ referer }}" class="text-blue-500 hover:underline mt-4 inline-block">Back to Previous Page</a>
-</main>
+      </form>
+    </div>
+    <a href="{{ referer }}" class="text-orange-500 hover:underline mt-4 inline-block text-center w-full">Back to Previous Page</a>
+  </div>
+</div>
+
 {% endblock %}

@@ -33,6 +33,14 @@
                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center">
                         View Details
                     </a>
+                    {% if user.is_authenticated and user.is_staff %}
+                    <form action="{% url 'main:delete_product' product.id %}" method="post" class="mt-4">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Delete Product
+                        </button>
+                    </form>
+                    {% endif %}
                 </div>
             {% empty %}
                 <p class="text-center text-gray-600">No products available in this stall.</p>

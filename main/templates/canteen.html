@@ -42,6 +42,14 @@
                         <button class="w-full bg-gray-200 text-black font-semibold py-2 rounded-lg hover:bg-gray-300">
                             Read More
                         </button>
+                        {% if user.is_authenticated and user.is_staff %}
+                        <form action="{% url 'main:delete_stall' item.id %}" method="post" class="mt-4">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Delete Stall
+                            </button>
+                        </form>
+                    {% endif %}
                     </div>
                 </div>
             </a>

@@ -62,40 +62,6 @@ def homepage(request):
     }
     return render(request, 'homepage.html', context)
 
-
-def register(request):
-    form = UserCreationForm()
-
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Account created successfully!')
-            return redirect('main:login')
-    context = {
-        'form': form
-    }
-
-    return render(request, 'register.html', context)
-
-def login_user(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            response = HttpResponseRedirect(reverse("main:homepage"))
-            response.set_cookie('last_login', str(datetime.datetime.now()))
-            return response
-        else:
-            messages.error(request, 'Invalid username or password.')
-
-    else:
-        form = AuthenticationForm(request)
-    context = {'form': form}
-    return render(request, 'login_and_register.html', context)
-
 def logout_user(request):
     logout(request)
     messages.success(request, 'You have been logged out.')
@@ -244,15 +210,15 @@ def add_canteen(request):
 
 @user_passes_test(is_admin, login_url='/login/')
 def add_stall(request):
+    referer = request.META.get('HTTP_REFERER', reverse('main:homepage'))
     if request.method == 'POST':
         form = StallForm(request.POST)
         if form.is_valid():
             stall = form.save()
-            canteen_name = stall.canteen.name
-            return redirect(reverse('main:canteen', kwargs={'name': canteen_name}))
+            return redirect(referer)
     else:
         form = StallForm()
-    return render(request, 'add_stall.html', {'form': form})
+    return render(request, 'add_stall.html', {'form': form, 'referer': referer})
 
 @user_passes_test(is_admin, login_url='/login/')
 def delete_stall(request, stall_id):
@@ -260,7 +226,16 @@ def delete_stall(request, stall_id):
         stall = get_object_or_404(Stall, id=stall_id)
         canteen_name = stall.canteen.name
         stall.delete()
-        return redirect(reverse('main:canteen', kwargs={'name': canteen_name}))  # Adjust the redirect as needed, e.g., 'main:stall_list'
+        return redirect(reverse('main:canteen', kwargs={'name': canteen_name})) 
+    
+@user_passes_test(is_admin, login_url='/login/')
+def delete_product(request, product_id):
+    if request.method == 'POST':
+        product = get_object_or_404(Product, id=product_id)
+        stall_name = product.stall.name
+        canteen_name = product.stall.canteen.name
+        product.delete()
+        return redirect(reverse('main:stall', kwargs={'canteen_name': canteen_name, 'stall_name': stall_name}))
 
 @user_passes_test(is_admin, login_url='/login/')
 @login_required

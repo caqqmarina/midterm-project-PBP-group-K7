@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # faculty model
 class Faculty(models.Model):
@@ -28,9 +30,10 @@ class Stall(models.Model):
         ('western', 'Western'),
         ('japanese', 'Japanese'),
         ('korean', 'Korean'),
-        ('others', 'Others'),
         ('indian', 'Indian'),
-        ('beverages', 'Beverages')
+        ('beverages', 'Beverages'),
+        ('dessert', 'Dessert'),
+        ('others', 'Others'),
     ]
 
     name = models.CharField(max_length=100)
@@ -50,4 +53,20 @@ class Product(models.Model):
         return self.name
         # return f"{self.name} - {self.price} (Stall: {self.stall.name})"
 
+# product review model
+class ProductReview(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ['product', 'user']
+
+class FavoriteProduct(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite_products')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorited_by')
+
+    class Meta:
+        unique_together = ['user', 'product']

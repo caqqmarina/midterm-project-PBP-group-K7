@@ -4,7 +4,8 @@ from django.urls import path
 from main.views import (
     homepage, logout_user, faculty, canteen, stall, product_detail, 
     add_faculty_and_canteen, user_homepage, add_canteen, add_stall, delete_stall, 
-    add_product, delete_faculty, show_json, login_and_register, delete_product
+    add_product, delete_faculty, show_json, login_and_register, delete_product,
+    submit_review, delete_review, favorite_product, unfavorite_product, favorite_products
 )
 
 app_name = 'main'
@@ -21,6 +22,15 @@ urlpatterns = [
     path('canteen/<str:canteen_name>/<str:stall_name>/', stall, name='stall'),  # Stall listing by canteen and stall names
     path('product/<int:product_id>/', product_detail, name='product_detail'),   # Product detail by product ID
     path('add_product/<int:stall_id>/', add_product, name='add_product'),
+
+    # Review submission
+    path('delete_review/<int:review_id>/', delete_review, name='delete_review'),  
+    path('submit_review/<int:product_id>/', submit_review, name='submit_review'),  
+
+    # Favorite products
+    path('favorite/<int:product_id>/', favorite_product, name='favorite_product'),  
+    path('unfavorite/<int:product_id>/', unfavorite_product, name='unfavorite_product'),  
+    path('favorites/', favorite_products, name='favorite_products'), 
 
     # CRUD operations (admin restricted)
     path('add-faculty-canteen/', add_faculty_and_canteen, name='add_faculty_and_canteen'),

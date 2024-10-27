@@ -8,30 +8,150 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<main class="min-h-screen bg-fixed" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
+<main class="min-h-screen bg-fixed font-doppio-one" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
     <div class="container mx-auto py-16">
-        <div class="bg-white shadow-md rounded-lg p-8 max-w-md mx-auto">
-            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">{{ product.name }}</h2>
-            <div class="flex justify-center mb-6">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-contain w-full h-64 rounded-lg">
-                {% else %}
-                    <img src="{% static 'images/default_product.png' %}" alt="No image available" class="object-contain w-full h-64 rounded-lg">
-                {% endif %}
+        <div class="bg-white shadow-md rounded-lg p-8 max-w-4xl mx-auto flex flex-col lg:flex-row items-center lg:items-start">
+            <!-- Product Details Section -->
+            <div class="lg:w-1/2 lg:pr-8 flex flex-col justify-center">
+                <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">{{ product.name }}</h2>
+                <p class="text-center text-lg font-semibold text-slate-700 mb-2">Price: Rp{{ product.price|format_price }}</p>
+                <div class="text-center">
+                    <p class="text-gray-600">Stall: {{ product.stall.name }}</p>
+                    <p class="text-gray-600">Canteen: {{ product.stall.canteen.name }}</p>
+                </div>
+                <div class="mt-6 text-center">
+                    <a href="{% url 'main:stall' canteen_name=product.stall.canteen.name stall_name=product.stall.name %}" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Back to Stall
+                    </a>
+                </div>
+                <div class="mt-4 text-center">
+                    {% if is_favorited %}
+                        <form method="post" action="{% url 'main:unfavorite_product' product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="inline-block px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Remove from Favorites</button>
+                        </form>
+                    {% else %}
+                        <form method="post" action="{% url 'main:favorite_product' product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="inline-block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Add to Favorites</button>
+                        </form>
+                    {% endif %}
+                </div>
             </div>
-            <p class="text-center text-lg font-semibold text-slate-700 mb-2">Price: Rp{{ product.price|format_price }}</p>
-            <div class="text-center">
-                <p class="text-gray-600">Stall: {{ product.stall.name }}</p>
-                <p class="text-gray-600">Canteen: {{ product.stall.canteen.name }}</p>
-            </div>
-            <div class="mt-6 text-center">
-                <a href="{% url 'main:stall' canteen_name=product.stall.canteen.name stall_name=product.stall.name %}" 
-                   class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                    Back to Stall
-                </a>
+
+            <!-- Ratings and Reviews Section -->
+            <div class="lg:w-1/2 lg:pl-8 mt-8 lg:mt-0">
+                <h3 class="text-2xl font-semibold">Ratings and Reviews</h3>
+                <form id="reviewForm" method="post" action="{% url 'main:submit_review' product_id=product.id %}" class="mt-4">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="rating" class="block text-sm font-medium text-gray-700">Rating:</label>
+                        <input type="number" id="rating" name="rating" min="1" max="10" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="mb-4">
+                        <label for="comment" class="block text-sm font-medium text-gray-700">Comment:</label>
+                        <textarea id="comment" name="comment" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                    </div>
+                    <button type="submit" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Submit Review</button>
+                </form>
+
+                <div id="reviewsContainer" class="mt-4">
+                    <h4 class="text-xl font-semibold">Customer Reviews</h4>
+                    {% for review in reviews %}
+                        <div class="border-t border-gray-300 py-2" id="review-{{ review.id }}">
+                            <p class="font-semibold">Rating: {{ review.rating }} / 10</p>
+                            <p>{{ review.comment }}</p>
+                            <p class="text-gray-500 text-sm">- {{ review.user.username }} on {{ review.created_at|date:"F j, Y" }}</p>
+                            {% if user.is_staff %}
+                                <form class="deleteReviewForm" method="post" action="{% url 'main:delete_review' review.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        <p class="text-gray-600">No reviews yet. Be the first to review this product!</p>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
 </main>
 {% include 'footer.html' %}
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle review form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Append the new review to the reviews container
+                    const reviewsContainer = document.getElementById('reviewsContainer');
+                    const newReview = document.createElement('div');
+                    newReview.classList.add('border-t', 'border-gray-300', 'py-2');
+                    newReview.innerHTML = `
+                        <p class="font-semibold">Rating: ${data.review.rating} / 10</p>
+                        <p>${data.review.comment}</p>
+                        <p class="text-gray-500 text-sm">- ${data.review.user} on ${data.review.created_at}</p>
+                        {% if user.is_staff %}
+                            <form class="deleteReviewForm" method="post" action="{% url 'main:delete_review' 0 %}".replace('0', data.review.id)>
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+                            </form>
+                        {% endif %}
+                    `;
+                    reviewsContainer.appendChild(newReview);
+                    form.reset();
+                } else {
+                    alert(data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Handle review deletion
+        document.querySelectorAll('.deleteReviewForm').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove the review from the DOM
+                        const reviewElement = document.getElementById(`review-${data.review_id}`);
+                        reviewElement.remove();
+                    } else {
+                        alert(data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+</script>
+{% endblock extra_js %}

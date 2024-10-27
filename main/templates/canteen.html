@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block meta %}
 <title>Canteens From {{ faculty_name }}</title>
@@ -8,14 +9,14 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-<main class="min-h-screen bg-fixed" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
+<main class="min-h-screen bg-fixed font-doppio-one" style="background: url('{% static 'images/gradientorange.png' %}') no-repeat center center fixed; background-size: cover;">
     <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center"> Stalls From {{ canteen_name }} </h3>
     
     <!-- Cuisine Filter Dropdown -->
     <div class="flex justify-center my-4">
         <form method="get">
             <select name="cuisine" onchange="this.form.submit()" class="border p-2 rounded">
-                <option value="">All Cuisines</option>
+                <option value="" >All Cuisines</option>
                 {% for cuisine in cuisines %}
                     <option value="{{ cuisine }}" {% if cuisine == current_cuisine %}selected{% endif %}>{{ cuisine }}</option>
                 {% endfor %}
@@ -35,20 +36,27 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for item in data %}
-            <a href="{% url 'main:stall' canteen_name=item.canteen.name stall_name=item.name %}">
+            {% for item in stalls_with_prices %}
+            <a href="{% url 'main:stall' canteen_name=item.stall.canteen.name stall_name=item.stall.name %}">
                 <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
                     <!-- Image section -->
                     <div class="h-40 overflow-hidden">
-                        <img src="{% static item.canteen.image %}" alt="{{ item.name }}" class="w-full h-full object-cover">
+                        <img src="{% static item.stall.canteen.image %}" alt="{{ item.stall.name }}" class="w-full h-full object-cover">
                     </div>
                     <!-- Content section -->
                     <div class="p-4 flex-grow">
-                        <h6 class="text-slate-800 text-xl font-semibold">{{ item.name }}</h6>
+                        <h6 class="text-slate-800 text-xl font-semibold">{{ item.stall.name }}</h6>
                         <span class="bg-yellow-400 text-black text-xs font-medium px-2 py-1 rounded-lg inline-block my-2">
-                            {{ item.cuisine }}
+                            {{ item.stall.cuisine }}
                         </span>
-                        <p class="text-gray-700 text-sm">Price range<br>Rp.... - Rp.....</p>
+                        <p class="text-gray-700 text-sm">
+                            Price range<br>
+                            {% if item.min_price and item.max_price %}
+                                Rp{{ item.min_price|format_price }} – Rp{{ item.max_price|format_price }}
+                            {% else %}
+                                No products available
+                            {% endif %}
+                        </p>
                     </div>
                     <!-- Button section -->
                     <div class="p-4">
@@ -56,7 +64,7 @@
                             Read More
                         </button>
                         {% if user.is_authenticated and user.is_staff %}
-                        <form action="{% url 'main:delete_stall' item.id %}" method="post" class="mt-4">
+                        <form action="{% url 'main:delete_stall' item.stall.id %}" method="post" class="mt-4">
                             {% csrf_token %}
                             <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                 Delete Stall

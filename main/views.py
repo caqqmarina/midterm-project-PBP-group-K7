@@ -175,7 +175,8 @@ def stall(request, canteen_name, stall_name):
         context = {
             'products': products,
             'canteen_name': canteen_name,
-            'stall_name': stall_name
+            'stall_name': stall_name,  # <-- Added the missing comma here
+            'stall': stall,
         }
         return render(request, 'stall.html', context)
     else:
@@ -252,7 +253,6 @@ def add_stall(request):
         form = StallForm()
     return render(request, 'add_stall.html', {'form': form})
 
-@user_passes_test(is_admin, login_url='/login/')
 @login_required
 def delete_stall(request, stall_id):
     if request.method == 'POST':
@@ -261,12 +261,13 @@ def delete_stall(request, stall_id):
         return redirect('main:canteen')  # Adjust the redirect as needed, e.g., 'main:stall_list'
 
 @user_passes_test(is_admin, login_url='/login/')
+@login_required
 def add_product(request, stall_id=None):
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('main:')  # Adjust as needed
+            return redirect('main:stall')  # Adjust as needed
     else:
         form = ProductForm(initial={'stall': stall_id} if stall_id else None)
 

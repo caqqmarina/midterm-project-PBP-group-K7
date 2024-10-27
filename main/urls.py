@@ -22,6 +22,7 @@ urlpatterns = [
     path('canteen/<str:name>/', canteen, name='canteen'),               # Canteen listing by faculty name
     path('canteen/<str:canteen_name>/<str:stall_name>/', stall, name='stall'),  # Stall listing by canteen and stall names
     path('product/<int:product_id>/', product_detail, name='product_detail'),   # Product detail by product ID
+    path('add_product/<int:stall_id>/', add_product, name='add_product'),
 
     # CRUD operations (admin restricted)
     path('add-faculty-canteen/', add_faculty_and_canteen, name='add_faculty_and_canteen'),

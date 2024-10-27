@@ -12,7 +12,7 @@
     <div class="container mx-auto py-16">
         <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center">Products from {{ stall_name }}</h3>
         
-        <<!-- stall.html -->
+        <!-- stall.html -->
         {% if user.is_authenticated and user.is_staff %}
         <div class="text-center my-4">
             <a href="{% url 'main:add_product' stall_id=stall.id %}" 

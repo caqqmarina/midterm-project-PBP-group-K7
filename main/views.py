@@ -263,13 +263,20 @@ def delete_stall(request, stall_id):
 @user_passes_test(is_admin, login_url='/login/')
 @login_required
 def add_product(request, stall_id=None):
+    stall = get_object_or_404(Stall, id=stall_id)  # Fetch the stall instance
+
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('main:stall')  # Adjust as needed
+            product = form.save(commit=False)
+            product.stall = stall  # Associate product with the stall
+            product.save()
+            messages.success(request, 'Product added successfully!')
+
+            # Redirect to the stall page using canteen_name and stall_name
+            return redirect('main:stall', canteen_name=stall.canteen.name, stall_name=stall.name)
     else:
-        form = ProductForm(initial={'stall': stall_id} if stall_id else None)
+        form = ProductForm(initial={'stall': stall_id})
 
     context = {
         'form': form,

@@ -158,6 +158,32 @@ def product_detail(request, product_id):
 def user_homepage(request):
     return
 
+@user_passes_test(is_admin, login_url='/login/')
+@login_required
+def add_faculty(request):
+    if request.method == 'POST':
+        form = FacultyForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Faculty added successfully!')
+            return redirect('main:faculty')
+    else:
+        form = FacultyForm()
+    return render(request, 'add_faculty.html', {'form': form})
+
+@user_passes_test(is_admin, login_url='/login/')
+@login_required
+def add_canteen(request):
+    if request.method == 'POST':
+        form = CanteenForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Canteen added successfully!')
+            return redirect('main:faculty')
+    else:
+        form = CanteenForm()
+    return render(request, 'add_canteen.html', {'form': form})
+
 @user_passes_test(is_admin, login_url='/login_and_register/')
 @login_required
 def add_faculty_and_canteen(request):
@@ -192,17 +218,6 @@ def add_faculty_and_canteen(request):
         'canteen_form': canteen_form
     }
     return render(request, 'add_faculty_and_canteen.html', context)
-
-@user_passes_test(is_admin, login_url='/login_and_register/')
-def add_canteen(request):
-    if request.method == 'POST':
-        form = CanteenForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('main:faculty')  # Adjust the redirect as needed
-    else:
-        form = CanteenForm()
-    return render(request, 'add_canteen.html', {'form': form})
 
 @user_passes_test(is_admin, login_url='/login_and_register/')
 def add_stall(request):

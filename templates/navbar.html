@@ -25,9 +25,12 @@
 
         {% if user.is_staff %}
             <div class="flex space-x-8">
-                <a href="{% url 'main:add_faculty_and_canteen' %}" class="text-white bg-green-500 hover:bg-green-700 py-2 px-4 rounded">
-                    Add Faculty and Canteen
-                </a>                
+                <a href="{% url 'main:add_faculty' %}" class="text-white bg-green-500 hover:bg-green-700 py-2 px-4 rounded">
+                    Add Faculty
+                </a>        
+                <a href="{% url 'main:add_canteen' %}" class="text-white bg-green-500 hover:bg-green-700 py-2 px-4 rounded">
+                    Add Canteen
+                </a>             
             </div>
         {% endif %}
 

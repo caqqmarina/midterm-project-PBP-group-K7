@@ -17,48 +17,22 @@ def is_admin(user):
     return user.is_staff
 
 def homepage(request):
-    # Sample data for demonstration purposes
-    bites = [
-        {
-            'title': 'Faculty of Science',
-            'description': 'Explore the best canteen at the Faculty of Science...',
-            'image_url': 'images/fmipamakara.png',
-            # 'link': '/faculty/science'
-        },
-        {
-            'title': 'Faculty of Cultural Sciences',
-            'description': 'Taste the unique dishes at the Faculty of Cultural Sciences...',
-            'image_url': 'images/makarafib.png',
-            'link': '/canteen/KANSAS'
-        },
-        {
-            'title': 'Faculty of Computer Science',
-            'description': 'Uncover the best-rated dishes at the Faculty of Computer Science...',
-            'image_url': 'images/fasilkom1.png',
-            # 'link': '/faculty/science'
-        },
-        {
-            'title': 'Library',
-            'description': 'Get a taste of flavourful dishes at the Library...',
-            'image_url': 'images/perpusui.png',
-            # 'link': '/faculty/arts'
-        },
-        {
-            'title': 'Faculty of Politics and Social Studies',
-            'description': 'Find out the top-rated food at the Faculty of Politics and Social Studies...',
-            'image_url': 'images/fisipmakara.png',
-            # 'link': '/faculty/engineering'
-        },
-        {
-            'title': 'Faculty of Vocational Studies',
-            'description': 'Discover great foods at the Faculty of Vocational Studies...',
-            'image_url': 'images/makaravokasi.png',
-            # 'link': '/faculty/engineering'
-        }
-    ]
+    faculties = Faculty.objects.all()
+    bites = []
+
+    for faculty in faculties:
+        canteens = Canteen.objects.filter(faculty=faculty)
+        for canteen in canteens:
+            bites.append({
+                'title': faculty.name,
+                'description': f'Explore the best canteen at the {faculty.name}...',
+                'image_url': faculty.image if faculty.image else 'images/default.png',
+                'link': f'/canteen/{canteen.name}'
+            })
+
     context = {
         'bites': bites,
-        'username' : request.user.username
+        'username': request.user.username
     }
     return render(request, 'homepage.html', context)
 
@@ -107,34 +81,25 @@ def faculty(request):
     context = {'data': data}
     return render(request, 'faculty.html', context)
 
-def canteen(request, faculty_name):
+def canteen(request, name):
+    canteen = Canteen.objects.get(name=name)
     cuisine_filter = request.GET.get('cuisine')  # Get cuisine filter from query parameters if available
-    stalls = Stall.objects.filter(canteen__faculty__name=faculty_name)  # Get all stalls for the faculty
+
+    stalls = Stall.objects.filter(canteen=canteen)  # Get all stalls for the canteen
     
     if cuisine_filter:  # If a cuisine filter is applied
         stalls = stalls.filter(cuisine=cuisine_filter)  # Filter stalls by cuisine
 
     # Pass the list of available cuisines and filtered stalls to the template
-    cuisines = Stall.objects.values_list('cuisine', flat=True).distinct()  # Get distinct cuisines
+    cuisines = Stall.objects.filter(canteen=canteen).values_list('cuisine', flat=True).distinct()  # Get distinct cuisines from filtered stalls
     context = {
-        'faculty_name': faculty_name,
+        'faculty_name': canteen.faculty.name,
+        'canteen_name': canteen.name,
         'data': stalls,
         'cuisines': cuisines,
         'current_cuisine': cuisine_filter,
     }
     return render(request, 'canteen.html', context)
-
-# def stall(request, canteen_name, stall_name):
-#     canteen = get_object_or_404(Canteen, name=canteen_name)
-#     stall = get_object_or_404(Stall, canteen=canteen, name=stall_name)
-#     products = Product.objects.filter(stall=stall)
-
-#     context = {
-#         'products': products,
-#         'canteen_name': canteen_name,
-#         'stall_name': stall_name
-#     }
-#     return render(request, 'stall.html', context)
 
 def stall(request, canteen_name, stall_name):
     canteen = get_object_or_404(Canteen, name=canteen_name)
@@ -224,7 +189,8 @@ def add_stall(request):
         form = StallForm(request.POST)
         if form.is_valid():
             stall = form.save()
-            return redirect(referer)
+            canteen_name = stall.canteen.name
+            return redirect('main:canteen', name=canteen_name)
     else:
         form = StallForm()
     return render(request, 'add_stall.html', {'form': form, 'referer': referer})

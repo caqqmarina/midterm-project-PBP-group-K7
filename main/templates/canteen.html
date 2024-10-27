@@ -12,12 +12,12 @@
     <h3 class="mb-2 text-slate-800 text-xl font-semibold text-center"> Stalls From {{ faculty_name }} </h3>
     <div class="container mx-auto py-16">
         <div class="flex justify-center my-4">
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user.is_staff %}
                 <a href="{% url 'main:add_stall' %}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
                     Add Stall
                 </a>
             {% else %}
-                <p>Please <a href="{% url 'main:login' %}" class="text-blue-500 underline">log in</a> to add a stall.</p>
+        
             {% endif %}
         </div>
 

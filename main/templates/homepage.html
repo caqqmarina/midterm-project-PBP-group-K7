@@ -15,7 +15,7 @@
         <div class="md:ml-8 text-center md:text-left">
             <h1 class="text-3xl" style="font-family: 'Doppio One';">Welcome, </h1>
             {% if user.is_authenticated %}
-                <h1 class="text-3xl mt-2 pl-4 inline-block" style="font-family: 'Damion';"><span class="underline">{{ user.username }}</span></h1>
+                <h1 class="text-3xl mt-2 pl-4 inline-block" style="font-family: 'Damion';">{{ user.username }}</h1>
             {% else %}
                 <h1 class="text-3xl mt-2 pl-4 inline-block" style="font-family: 'Damion';">Guest</h1>
             {% endif %}

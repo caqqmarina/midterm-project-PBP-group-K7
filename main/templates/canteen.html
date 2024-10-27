@@ -21,27 +21,28 @@
             {% endif %}
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for item in data %}
-            <!-- Link to the products in this stall -->
             <a href="{% url 'main:stall' canteen_name=item.canteen.name stall_name=item.name %}">
-                <div class="bg-white shadow-md rounded-lg p-4 w-full h-full flex flex-col justify-between">
-                    <h6 class="mb-2 text-slate-800 text-xl font-semibold text-center">{{ item.name }}</h6>
-                    <div class="flex justify-center items-center h-36">
-                        <img src="{% static item.canteen.image %}" alt="{{ item.name }}" class="object-contain w-full h-full rounded-lg">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
+                    <!-- Image section -->
+                    <div class="h-40 overflow-hidden">
+                        <img src="{% static item.canteen.image %}" alt="{{ item.name }}" class="w-full h-full object-cover">
                     </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between">
-                        <div>{{ item.cuisine }}</div>
+                    <!-- Content section -->
+                    <div class="p-4 flex-grow">
+                        <h6 class="text-slate-800 text-xl font-semibold">{{ item.name }}</h6>
+                        <span class="bg-yellow-400 text-black text-xs font-medium px-2 py-1 rounded-lg inline-block my-2">
+                            {{ item.cuisine }}
+                        </span>
+                        <p class="text-gray-700 text-sm">Price range<br>Rp.... - Rp.....</p>
                     </div>
-                    <!-- Delete Stall Button, visible for authenticated staff users -->
-                    {% if user.is_authenticated and user.is_staff %}
-                    <form action="{% url 'main:delete_stall' item.id %}" method="post" class="mt-4">
-                        {% csrf_token %}
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Delete Stall
+                    <!-- Button section -->
+                    <div class="p-4">
+                        <button class="w-full bg-gray-200 text-black font-semibold py-2 rounded-lg hover:bg-gray-300">
+                            Read More
                         </button>
-                    </form>
-                    {% endif %}
+                    </div>
                 </div>
             </a>
             {% empty %}
@@ -50,6 +51,7 @@
         </div>
     </div>
 </main>
+
 
 {% include 'footer.html' %}
 {% endblock content %}

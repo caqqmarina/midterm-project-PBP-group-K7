@@ -5,3 +5,4 @@ psycopg2-binary
 requests
 coverage
 urllib3
+django-cors-headers

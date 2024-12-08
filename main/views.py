@@ -406,3 +406,22 @@ def show_json(request):
     pretty_data = json.dumps(data, indent=4)
 
     return HttpResponse(pretty_data, content_type='application/json')
+
+
+@user_passes_test(is_admin, login_url='/login_and_register/')
+@login_required
+def edit_faculty(request, faculty_id):
+    faculty = get_object_or_404(Faculty, id=faculty_id)
+    if request.method == 'POST':
+        form = FacultyForm(request.POST, request.FILES, instance=faculty)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Faculty updated successfully!')
+            return redirect('main:faculty')
+        else:
+            if request.is_ajax():  
+                return JsonResponse({"success": False, "errors": form.errors}, status=400)
+    else:
+        form = FacultyForm(instance=faculty)
+    
+    return render(request, 'edit_faculty.html', {'form': form, 'faculty': faculty})

@@ -19,7 +19,7 @@
                         <img src="{% static item.image %}" alt="Faculty 1" class="object-contain w-full h-full rounded-lg">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between">
-                        <div class="{{ item.faculty.name_css_class }}">
+                        <div class="{{ item.faculty.get_css_class }}">
                             {{ item.name }}
                         </div>
                         <h6 class="mb-2 text-slate-800 text-xl font-semibold">
@@ -29,14 +29,22 @@
                             {{ item.price }}
                         </p>
                     </div>
-                    <!-- Delete Button -->
+                    <!-- Edit and Delete Buttons -->
                     {% if user.is_authenticated and user.is_staff %}
-                        <form action="{% url 'main:delete_faculty' item.faculty.id %}" method="post" class="mt-4">
-                            {% csrf_token %}
-                            <button type="submit" class="text-white bg-red-500 hover:bg-red-700 py-2 px-4 rounded">
-                                Delete
-                            </button>
-                        </form>
+                        <div class="flex justify-between mt-4">
+                            <form action="{% url 'main:delete_faculty' item.faculty.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="text-white bg-red-500 hover:bg-red-700 py-2 px-4 rounded">
+                                    Delete
+                                </button>
+                            </form>
+                            <form action="{% url 'main:edit_faculty' item.faculty.id %}" method="get">
+                                {% csrf_token %}
+                                <button type="submit" class="text-white bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded">
+                                    Edit
+                                </button>
+                            </form>
+                        </div>
                     {% endif %}
                 </div>
             </a>

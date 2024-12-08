@@ -4,9 +4,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 class FacultyForm(forms.ModelForm):
+    colors = forms.CharField(help_text="Enter colors separated by commas (e.g., 'red' or 'red,blue' or 'red,blue,green')")
+    
     class Meta:
         model = Faculty
-        fields = ['name', 'nickname', 'name_css_class', 'image']
+        fields = ['name', 'nickname', 'colors', 'image']
 
 class CanteenForm(forms.ModelForm):
     class Meta:

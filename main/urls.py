@@ -6,7 +6,7 @@ from main.views import (
     user_homepage, add_canteen, add_stall, delete_stall, 
     add_product, delete_faculty, show_json, login_and_register, delete_product,
     submit_review, delete_review, favorite_product, unfavorite_product, favorite_products,
-    add_faculty
+    add_faculty, edit_faculty
 )
 
 app_name = 'main'
@@ -37,6 +37,7 @@ urlpatterns = [
     path('add-faculty/', add_faculty, name='add_faculty'),  # Add this line
     path('add-canteen/', add_canteen, name='add_canteen'),  # Add this line
     path('user_homepage/', user_homepage, name='user_homepage'),          # Admin/User homepage
+    path('edit_faculty/<int:faculty_id>/', edit_faculty, name='edit_faculty'), # Admin: edit faculty
     # path('add_canteen/', add_canteen, name='add_canteen'),                # Admin: add canteen
     path('add_stall/', add_stall, name='add_stall'),                      # Admin: add stall
     path('stall/delete/<int:stall_id>/', delete_stall, name='delete_stall'),  # Admin: delete stall

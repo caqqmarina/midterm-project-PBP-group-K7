@@ -15,6 +15,43 @@ from django.http import JsonResponse
 import json
 import datetime
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            stall_id = data.get("stall")
+            stall = Stall.objects.get(pk=stall_id)  # Get the Stall object by its ID
+            
+            new_product = Product.objects.create(
+                name=data["name"],
+                price=float(data["price"]),
+                stall=stall,
+            )
+            return JsonResponse({"status": "success", "product_id": new_product.id}, status=200)
+        except Stall.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Invalid stall ID"}, status=400)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid HTTP method"}, status=405)
+
+@csrf_exempt
+def delete_product_flutter(request, product_id):
+    if request.method == 'DELETE':
+        try:
+            product = Product.objects.get(pk=product_id)
+            product.delete()
+            return JsonResponse({"status": "success"}, status=200)
+        except Product.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Product not found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid HTTP method"}, status=405)
+
 
 def is_admin(user):
     return user.is_staff

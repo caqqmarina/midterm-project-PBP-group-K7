@@ -500,3 +500,50 @@ def delete_review_flutter(request):
 
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+
+@csrf_exempt
+def create_faculty_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            print("Received data:", data)
+            new_faculty = Faculty.objects.create(
+                name=data["name"],
+                nickname=data["nickname"],
+                colors=data["colors"],
+                image=data["image"]
+            )
+            new_faculty.save()
+            return JsonResponse({"status": "success"}, status=200)
+        except Exception as e:
+            print("Error:", str(e))
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+    
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Faculty, Canteen
+
+@csrf_exempt
+def create_canteen_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            print("Received data:", data)  # Add logging to see the received data
+            faculty = Faculty.objects.get(name=data["faculty"])
+            new_canteen = Canteen.objects.create(
+                name=data["name"],
+                faculty=faculty,
+                image=data["image"],
+                price=data["price"]
+            )
+            new_canteen.save()
+            return JsonResponse({"status": "success"}, status=200)
+        except Exception as e:
+            print("Error:", str(e))  # Add logging to see the error
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)

@@ -7,7 +7,7 @@ from main.views import (
     add_product, delete_faculty, show_json, login_and_register, delete_product,
     submit_review, delete_review, favorite_product, unfavorite_product, favorite_products,
     add_faculty, edit_faculty, get_stall_json, create_stall_flutter, update_stall_flutter, delete_stall_flutter, get_favorites_json,
-    submit_review_flutter, delete_review_flutter
+    submit_review_flutter, delete_review_flutter, create_faculty_flutter, create_canteen_flutter
 )
 
 app_name = 'main'
@@ -53,12 +53,17 @@ urlpatterns = [
     # JSON data endpoint for external use
     path('show_json/', show_json, name='show_json'),
 
-    # Flutter urls
+    #### Flutter urls ####
+
+    # JSON data endpoint for Flutter
     path('get-stall/<int:stall_id>/', get_stall_json, name='get_stall_json'),
+
+    # CRUD operations for Flutter
     path('create-stall-flutter/', create_stall_flutter, name='create_stall_flutter'),
     path('update-stall-flutter/<int:stall_id>/', update_stall_flutter, name='update_stall_flutter'),
     path('delete-stall-flutter/<int:stall_id>/', delete_stall_flutter, name='delete_stall_flutter'),
     path('submit-review-flutter/', submit_review_flutter, name='submit_review_flutter'),
     path('delete-review-flutter/', delete_review_flutter, name='delete_review_flutter'),
-    
+    path('create-faculty-flutter/', create_faculty_flutter, name='create_faculty_flutter'),
+    path('create-canteen-flutter/', create_canteen_flutter, name='create_canteen_flutter'),
 ]

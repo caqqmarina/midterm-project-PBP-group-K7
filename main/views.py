@@ -14,6 +14,7 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 import json
 import datetime
+from django.utils.timezone import now
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.views.decorators.csrf import csrf_exempt
 
@@ -178,19 +179,6 @@ def add_faculty(request):
     
     return render(request, 'add_faculty.html', {'form': form})
 
-# @user_passes_test(is_admin, login_url='/login/')
-# @login_required
-# def add_canteen(request):
-#     if request.method == 'POST':
-#         form = CanteenForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Canteen added successfully!')
-#             return redirect('main:faculty')
-#     else:
-#         form = CanteenForm()
-#     return render(request, 'add_canteen.html', {'form': form})
-
 @user_passes_test(is_admin, login_url='/login_and_register/')
 @login_required
 def add_canteen(request):
@@ -209,41 +197,6 @@ def add_canteen(request):
         form = CanteenForm()
     
     return render(request, 'add_canteen.html', {'form': form})
-
-# @user_passes_test(is_admin, login_url='/login_and_register/')
-# @login_required
-# def add_faculty_and_canteen(request):
-#     faculty_form = FacultyForm(request.POST or None)
-#     canteen_form = CanteenForm(request.POST or None)
-    
-#     if request.method == 'POST':
-#         if faculty_form.is_valid() and canteen_form.is_valid():
-#             # Get or create the faculty
-#             faculty, created = Faculty.objects.get_or_create(
-#                 name=faculty_form.cleaned_data['name'],
-#                 defaults={
-#                     'nickname': faculty_form.cleaned_data['nickname'],
-#                     'name_css_class': faculty_form.cleaned_data['name_css_class'],
-#                     'image': faculty_form.cleaned_data['image']
-#                 }
-#             )
-            
-#             # If faculty was created, link canteen to it
-#             if created:
-#                 canteen = canteen_form.save(commit=False)
-#                 canteen.faculty = faculty  # Link the canteen to the newly created faculty
-#                 canteen.save()
-#                 messages.success(request, f"Faculty '{faculty.name}' and Canteen '{canteen.name}' created successfully!")
-#             else:
-#                 messages.error(request, f"Faculty '{faculty.name}' already exists.")
-            
-#             return redirect('main:faculty')  # Redirect to the faculty page or any other page
-
-#     context = {
-#         'faculty_form': faculty_form,
-#         'canteen_form': canteen_form
-#     }
-#     return render(request, 'add_faculty_and_canteen.html', context)
 
 @user_passes_test(is_admin, login_url='/login_and_register/')
 def add_stall(request):
@@ -470,3 +423,68 @@ def delete_stall_flutter(request, stall_id):
         stall.delete()
         return JsonResponse({"status": "success"})
     return JsonResponse({"status": "error"}, status=400)
+
+@csrf_exempt
+@login_required
+def submit_review_flutter(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Only POST requests are allowed.'}, status=405)
+
+    try:
+        # Parse JSON body
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+        rating = data.get('rating')
+        comment = data.get('comment')
+
+        # Validate input
+        if not product_id or not rating:
+            return JsonResponse({'success': False, 'error': 'Product ID and rating are required.'}, status=400)
+
+        product = get_object_or_404(Product, id=product_id)
+
+        # Create or update review
+        review, created = ProductReview.objects.update_or_create(
+            product=product,
+            user=request.user,
+            defaults={'rating': rating, 'comment': comment, 'updated_at': now()}
+        )
+
+        return JsonResponse({
+            'success': True,
+            'review': {
+                'id': review.id,
+                'product_id': product.id,
+                'rating': review.rating,
+                'comment': review.comment,
+                'user': review.user.username,
+                'created_at': review.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            },
+        })
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@csrf_exempt
+@login_required
+def delete_review_flutter(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Only POST requests are allowed.'}, status=405)
+
+    try:
+        # Parse JSON body
+        data = json.loads(request.body)
+        review_id = data.get('review_id')
+
+        # Validate input
+        if not review_id:
+            return JsonResponse({'success': False, 'error': 'Review ID is required.'}, status=400)
+
+        # Fetch and delete the review
+        review = get_object_or_404(ProductReview, id=review_id, user=request.user)
+        review.delete()
+
+        return JsonResponse({'success': True, 'message': 'Review deleted successfully.'})
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

@@ -6,7 +6,8 @@ from main.views import (
     user_homepage, add_canteen, add_stall, delete_stall, 
     add_product, delete_faculty, show_json, login_and_register, delete_product,
     submit_review, delete_review, favorite_product, unfavorite_product, favorite_products,
-    add_faculty, edit_faculty, get_stall_json, create_stall_flutter, update_stall_flutter, delete_stall_flutter
+    add_faculty, edit_faculty, get_stall_json, create_stall_flutter, update_stall_flutter, delete_stall_flutter,
+    submit_review_flutter, delete_review_flutter
 )
 
 app_name = 'main'
@@ -54,5 +55,7 @@ urlpatterns = [
     path('create-stall-flutter/', create_stall_flutter, name='create_stall_flutter'),
     path('update-stall-flutter/<int:stall_id>/', update_stall_flutter, name='update_stall_flutter'),
     path('delete-stall-flutter/<int:stall_id>/', delete_stall_flutter, name='delete_stall_flutter'),
+    path('submit-review-flutter/', submit_review_flutter, name='submit_review_flutter'),
+    path('delete-review-flutter/', delete_review_flutter, name='delete_review_flutter'),
     
 ]

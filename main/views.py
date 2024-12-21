@@ -365,15 +365,18 @@ def delete_review(request, review_id):
     messages.success(request, 'Review deleted successfully.')
     return redirect('main:product_detail', product_id=product.id)
 
+@csrf_exempt
 @login_required(login_url='/login_and_register/')
 def favorite_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    favorite, created = FavoriteProduct.objects.get_or_create(user=request.user, product=product)
-    if created:
-        messages.success(request, 'Product added to favorites.')
-    else:
-        messages.info(request, 'Product is already in your favorites.')
-    return redirect('main:product_detail', product_id=product.id)
+    favorite, created = FavoriteProduct.objects.get_or_create(
+        user=request.user, 
+        product=product
+    )
+    return JsonResponse({
+        'status': 'success',
+        'message': 'Added to favorites' if created else 'Already in favorites'
+    })
 
 @login_required(login_url='/login_and_register/')
 def unfavorite_product(request, product_id):
@@ -397,16 +400,12 @@ def show_json(request):
     canteens = Canteen.objects.all()
     stalls = Stall.objects.all()
     products = Product.objects.all()
-    reviews = ProductReview.objects.all()
-    favorite_products = FavoriteProduct.objects.all()
 
     data = {
         'faculties': json.loads(serializers.serialize('json', faculties)),
         'canteens': json.loads(serializers.serialize('json', canteens)),
         'stalls': json.loads(serializers.serialize('json', stalls)),
         'products': json.loads(serializers.serialize('json', products)),
-        'reviews': json.loads(serializers.serialize('json', reviews)),
-        'favorite_products': json.loads(serializers.serialize('json', favorite_products)),
     }
 
     pretty_data = json.dumps(data, indent=4)
@@ -470,3 +469,16 @@ def delete_stall_flutter(request, stall_id):
         stall.delete()
         return JsonResponse({"status": "success"})
     return JsonResponse({"status": "error"}, status=400)
+
+@csrf_exempt
+@login_required(login_url='/login_and_register/')
+def get_favorites_json(request):
+    favorites = FavoriteProduct.objects.filter(user=request.user).select_related('product')
+    return JsonResponse([{
+        'id': favorite.id,
+        'product': {
+            'id': favorite.product.id,
+            'name': favorite.product.name,
+            'price': favorite.product.price,
+        }
+    } for favorite in favorites], safe=False)

@@ -6,7 +6,7 @@ from main.views import (
     user_homepage, add_canteen, add_stall, delete_stall, 
     add_product, delete_faculty, show_json, login_and_register, delete_product,
     submit_review, delete_review, favorite_product, unfavorite_product, favorite_products,
-    add_faculty, edit_faculty, get_stall_json, create_stall_flutter, update_stall_flutter, delete_stall_flutter
+    add_faculty, edit_faculty, get_stall_json, create_stall_flutter, update_stall_flutter, delete_stall_flutter, get_favorites_json
 )
 
 app_name = 'main'
@@ -29,9 +29,12 @@ urlpatterns = [
     path('submit_review/<int:product_id>/', submit_review, name='submit_review'),  
 
     # Favorite products
-    path('favorite/<int:product_id>/', favorite_product, name='favorite_product'),  
+    path('favorites/', favorite_products, name='favorite_products'),
+    path('favorites/<int:product_id>/', favorite_product, name='favorite_product'),
     path('unfavorite/<int:product_id>/', unfavorite_product, name='unfavorite_product'),  
-    path('favorites/', favorite_products, name='favorite_products'), 
+    path('favorites/json/', get_favorites_json, name='get_favorites_json'),
+    path('favorite/<int:product_id>/', favorite_product, name='favorite_product'),
+    path('unfavorite/<int:product_id>/', unfavorite_product, name='unfavorite_product'),
 
     # CRUD operations (admin restricted)
     path('add-faculty/', add_faculty, name='add_faculty'),  # Add this line
@@ -54,5 +57,5 @@ urlpatterns = [
     path('create-stall-flutter/', create_stall_flutter, name='create_stall_flutter'),
     path('update-stall-flutter/<int:stall_id>/', update_stall_flutter, name='update_stall_flutter'),
     path('delete-stall-flutter/<int:stall_id>/', delete_stall_flutter, name='delete_stall_flutter'),
-    
+
 ]

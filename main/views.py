@@ -395,12 +395,16 @@ def show_json(request):
     canteens = Canteen.objects.all()
     stalls = Stall.objects.all()
     products = Product.objects.all()
+    reviews = ProductReview.objects.all()
+    favorite_products = FavoriteProduct.objects.all()
 
     data = {
         'faculties': json.loads(serializers.serialize('json', faculties)),
         'canteens': json.loads(serializers.serialize('json', canteens)),
         'stalls': json.loads(serializers.serialize('json', stalls)),
         'products': json.loads(serializers.serialize('json', products)),
+        'reviews': json.loads(serializers.serialize('json', reviews)),
+        'favorite_products': json.loads(serializers.serialize('json', favorite_products)),
     }
 
     pretty_data = json.dumps(data, indent=4)

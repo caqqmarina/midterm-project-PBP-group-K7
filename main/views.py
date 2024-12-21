@@ -15,6 +15,7 @@ from django.http import JsonResponse
 import json
 import datetime
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from django.views.decorators.csrf import csrf_exempt
 
 def is_admin(user):
     return user.is_staff
@@ -390,6 +391,7 @@ def favorite_products(request):
     }
     return render(request, 'favorite_products.html', context)
 
+@csrf_exempt
 def show_json(request):
     faculties = Faculty.objects.all()
     canteens = Canteen.objects.all()
@@ -425,3 +427,42 @@ def edit_faculty(request, faculty_id):
         form = FacultyForm(instance=faculty)
     
     return render(request, 'edit_faculty.html', {'form': form, 'faculty': faculty})
+
+@csrf_exempt
+def get_stall_json(request, stall_id):
+    stall = get_object_or_404(Stall, id=stall_id)
+    return JsonResponse({
+        "name": stall.name,
+        "canteen": stall.canteen.name,
+        "cuisine": stall.cuisine,
+        "products": list(stall.products.values())
+    })
+
+@csrf_exempt
+def create_stall_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        form = StallForm(data)
+        if form.is_valid():
+            stall = form.save()
+            return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "error"})
+
+@csrf_exempt
+def update_stall_flutter(request, stall_id):
+    if request.method == 'PUT':
+        stall = get_object_or_404(Stall, id=stall_id)
+        data = json.loads(request.body)
+        form = StallForm(data, instance=stall)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "error"}, status=400)
+
+@csrf_exempt
+def delete_stall_flutter(request, stall_id):
+    if request.method == 'DELETE':
+        stall = get_object_or_404(Stall, id=stall_id)
+        stall.delete()
+        return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "error"}, status=400)

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from main.models import Product, Faculty, Canteen, Stall, ProductReview, FavoriteProduct
+from main.models import Product, Faculty, Canteen, Stall, ProductReview, FavoriteProduct, User
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -354,16 +354,22 @@ def favorite_products(request):
 
 @csrf_exempt
 def show_json(request):
+    users = User.objects.all()
     faculties = Faculty.objects.all()
     canteens = Canteen.objects.all()
     stalls = Stall.objects.all()
     products = Product.objects.all()
+    reviews = ProductReview.objects.all()
+    favorite_products = FavoriteProduct.objects.all()
 
     data = {
+        'users': json.loads(serializers.serialize('json', users)),
         'faculties': json.loads(serializers.serialize('json', faculties)),
         'canteens': json.loads(serializers.serialize('json', canteens)),
         'stalls': json.loads(serializers.serialize('json', stalls)),
         'products': json.loads(serializers.serialize('json', products)),
+        'reviews': json.loads(serializers.serialize('json', reviews)),
+        'favorite_products': json.loads(serializers.serialize('json', favorite_products)),
     }
 
     pretty_data = json.dumps(data, indent=4)
@@ -450,7 +456,6 @@ def get_favorites_json(request):
     ], safe=False)
 
 @csrf_exempt
-@login_required
 def submit_review_flutter(request):
     if request.method != 'POST':
         return JsonResponse({'success': False, 'error': 'Only POST requests are allowed.'}, status=405)
@@ -472,7 +477,7 @@ def submit_review_flutter(request):
         review, created = ProductReview.objects.update_or_create(
             product=product,
             user=request.user,
-            defaults={'rating': rating, 'comment': comment, 'updated_at': now()}
+            defaults={'rating': rating, 'comment': comment}
         )
 
         return JsonResponse({
@@ -488,10 +493,10 @@ def submit_review_flutter(request):
         })
 
     except Exception as e:
+        print(f"Error: {e}")
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 @csrf_exempt
-@login_required
 def delete_review_flutter(request):
     if request.method != 'POST':
         return JsonResponse({'success': False, 'error': 'Only POST requests are allowed.'}, status=405)
@@ -512,6 +517,7 @@ def delete_review_flutter(request):
         return JsonResponse({'success': True, 'message': 'Review deleted successfully.'})
 
     except Exception as e:
+        print(f"Error: {e}")
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
     
 

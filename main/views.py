@@ -321,6 +321,10 @@ def delete_review(request, review_id):
 @csrf_exempt
 @login_required(login_url='/login_and_register/')
 def favorite_product(request, product_id):
+    # Validate product ID
+    if product_id <= 0:
+        return JsonResponse({'status': 'error', 'message': 'Invalid product ID'}, status=400)
+
     product = get_object_or_404(Product, id=product_id)
     favorite, created = FavoriteProduct.objects.get_or_create(
         user=request.user, 
@@ -331,6 +335,7 @@ def favorite_product(request, product_id):
         'message': 'Added to favorites' if created else 'Already in favorites'
     })
 
+@csrf_exempt
 @login_required(login_url='/login_and_register/')
 def unfavorite_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -426,15 +431,23 @@ def delete_stall_flutter(request, stall_id):
 @csrf_exempt
 @login_required(login_url='/login_and_register/')
 def get_favorites_json(request):
-    favorites = FavoriteProduct.objects.filter(user=request.user).select_related('product')
-    return JsonResponse([{
-        'id': favorite.id,
-        'product': {
-            'id': favorite.product.id,
-            'name': favorite.product.name,
-            'price': favorite.product.price,
+    favorites = FavoriteProduct.objects.filter(user=request.user).select_related('product__stall')
+    return JsonResponse([
+        {
+            'id': favorite.id,
+            'product': {
+                'id': favorite.product.id,
+                'name': favorite.product.name,
+                'price': str(favorite.product.price),
+                # Return stall info as nested object
+                'stall': {
+                    'id': favorite.product.stall.id,
+                    'name': favorite.product.stall.name,
+                }
+            }
         }
-    } for favorite in favorites], safe=False)
+        for favorite in favorites
+    ], safe=False)
 
 @csrf_exempt
 @login_required
@@ -547,3 +560,19 @@ def create_canteen_flutter(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def get_product_json(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    # In get_product_json
+    data = {
+    "model": "main.product",
+    "pk": product.id,
+    "fields": {
+        "name": product.name,
+        "price": str(product.price),
+        "stall": product.stall.name 
+    }
+    }
+    return JsonResponse(data)
+

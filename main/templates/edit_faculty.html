@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="flex flex-col min-h-screen bg-gray-100">
+  <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+    <h1 class="text-3xl font-bold text-center mb-8 text-orange-600">Edit Faculty</h1>
+  
+    <div class="bg-white shadow-md rounded-lg p-6 form-style">
+      <form id="editFacultyForm" method="POST" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+        <h3 class="text-lg font-semibold">Faculty Information</h3>
+        {{ form.as_p }}
+        <div class="flex justify-center mt-6">
+          <button type="submit" class="bg-orange-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-orange-700 transition duration-300 ease-in-out w-full">
+            Update Faculty
+          </button>
+        </div>
+      </form>
+    </div>
+    <div id="formMessage" class="text-center mt-4"></div>
+    <a href="{% url 'main:homepage' %}" class="text-orange-500 hover:underline mt-4 inline-block text-center w-full">Back to Homepage</a>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("editFacultyForm");
+    const formMessage = document.getElementById("formMessage");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch("{% url 'main:edit_faculty' faculty.id %}", {
+            method: "POST",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                formMessage.innerHTML = '<p class="text-green-500">Faculty updated successfully!</p>';
+            } else {
+                formMessage.innerHTML = '<p class="text-red-500">There was an error. Please try again.</p>';
+            }
+        })
+        .catch(error => {
+            formMessage.innerHTML = '<p class="text-red-500">Error: ' + error.message + '</p>';
+        });
+    });
+});
+</script>
+
+{% endblock %}

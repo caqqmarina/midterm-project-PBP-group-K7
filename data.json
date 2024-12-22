@@ -1,0 +1,1406 @@
+{
+    "faculties": [
+      {
+        "model": "main.faculty",
+        "pk": 1,
+        "fields": {
+          "name": "Faculty of Mathematics and Natural Sciences",
+          "nickname": "FMIPA",
+          "colors": "cyan,neutral",
+          "image": "images/fmipamakara.png"
+        }
+      },
+      {
+        "model": "main.faculty",
+        "pk": 2,
+        "fields": {
+          "name": "Faculty of Social and Political Sciences",
+          "nickname": "FISIP",
+          "colors": "amber",
+          "image": "images/fisipmakara.png"
+        }
+      },
+      {
+        "model": "main.faculty",
+        "pk": 4,
+        "fields": {
+          "name": "Faculty of Computer Science",
+          "nickname": "FASILKOM",
+          "colors": "blue,red",
+          "image": "images/makarafasilkom.png"
+        }
+      },
+      {
+        "model": "main.faculty",
+        "pk": 5,
+        "fields": {
+          "name": "Vocational Program",
+          "nickname": "VOKASI",
+          "colors": "green,orange,blue",
+          "image": "images/makaravokasi.png"
+        }
+      },
+      {
+        "model": "main.faculty",
+        "pk": 6,
+        "fields": {
+          "name": "Crystal of Knowledge",
+          "nickname": "PERPUS-UI",
+          "colors": "yellow",
+          "image": "images/perpusui.png"
+        }
+      }
+    ],
+    "canteens": [
+      {
+        "model": "main.canteen",
+        "pk": 6,
+        "fields": {
+          "name": "LIBRARY",
+          "faculty": 6,
+          "image": "https://siska.fppti.or.id/storage/foto/n6mHYTJUruJLky5SJBVLBS60h6m9q3nzFLKWeFWU.png",
+          "price": "Rp10.000–Rp25.000/pax"
+        }
+      },
+      {
+        "model": "main.canteen",
+        "pk": 5,
+        "fields": {
+          "name": "KANVOK",
+          "faculty": 5,
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHdB6zlCp8dxfzxiW6TA_93KgiT5rKISCGmQ&s",
+          "price": "Rp10.000–Rp25.000/pax"
+        }
+      },
+      {
+        "model": "main.canteen",
+        "pk": 4,
+        "fields": {
+          "name": "BALGEBUN",
+          "faculty": 4,
+          "image": "https://pbs.twimg.com/media/B6WVh3SCQAA_97m.png",
+          "price": "Rp10.000–Rp20.000/pax"
+        }
+      },
+      {
+        "model": "main.canteen",
+        "pk": 1,
+        "fields": {
+          "name": "DALLAS",
+          "faculty": 1,
+          "image": "https://pbs.twimg.com/media/BczKdZCCUAABUx6.png",
+          "price": "Rp10.000–Rp25.000/pax"
+        }
+      },
+      {
+        "model": "main.canteen",
+        "pk": 2,
+        "fields": {
+          "name": "TAKOR",
+          "faculty": 2,
+          "image": "https://pbs.twimg.com/profile_images/1453308791/makara-fisip_400x400.png",
+          "price": "Rp10.000–Rp25.000/pax"
+        }
+      }
+    ],
+    "stalls": [
+      {
+        "model": "main.stall",
+        "pk": 12,
+        "fields": {
+          "name": "Ayam Bengis, Ayam Penyet",
+          "canteen": 1,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 13,
+        "fields": {
+          "name": "Mie Ayam Pakde",
+          "canteen": 1,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 14,
+        "fields": {
+          "name": "Ketoprak, Gado-Gado, Lontong Sayur",
+          "canteen": 1,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 15,
+        "fields": {
+          "name": "Ayam Kalasan",
+          "canteen": 1,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 16,
+        "fields": {
+          "name": "Fried Chicken & Ayam Geprek",
+          "canteen": 1,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 17,
+        "fields": {
+          "name": "Isabela Waroeng Steak",
+          "canteen": 1,
+          "cuisine": "western"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 18,
+        "fields": {
+          "name": "Warung Sate",
+          "canteen": 1,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 19,
+        "fields": {
+          "name": "Sate ayam sate kambing dan sop ayam pacil",
+          "canteen": 4,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 20,
+        "fields": {
+          "name": "Dapur MaGenta",
+          "canteen": 4,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 21,
+        "fields": {
+          "name": "Counter 7",
+          "canteen": 4,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 22,
+        "fields": {
+          "name": "Sendok Kayu",
+          "canteen": 4,
+          "cuisine": "indian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 23,
+        "fields": {
+          "name": "Aneka Nasi Goreng Fasilkom UI",
+          "canteen": 4,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 24,
+        "fields": {
+          "name": "Warkop Pade Yono Makanan",
+          "canteen": 4,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 25,
+        "fields": {
+          "name": "Kedai Ceu Nta",
+          "canteen": 4,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 26,
+        "fields": {
+          "name": "Warkop Pade Yono Minuman",
+          "canteen": 4,
+          "cuisine": "beverages"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 27,
+        "fields": {
+          "name": "Siomay Ikan Tenggiri",
+          "canteen": 2,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 28,
+        "fields": {
+          "name": "Hoki Bento",
+          "canteen": 2,
+          "cuisine": "japanese"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 29,
+        "fields": {
+          "name": "Allo Ceria",
+          "canteen": 2,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 30,
+        "fields": {
+          "name": "Mie Ayam Baso BuE",
+          "canteen": 2,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 31,
+        "fields": {
+          "name": "Chinese Food",
+          "canteen": 2,
+          "cuisine": "chinese"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 32,
+        "fields": {
+          "name": "Nasi Rempah Ayam Tulang Lunak",
+          "canteen": 2,
+          "cuisine": "indonesian"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 33,
+        "fields": {
+          "name": "Sakura Bento Mba Amin",
+          "canteen": 2,
+          "cuisine": "japanese"
+        }
+      },
+      {
+        "model": "main.stall",
+        "pk": 34,
+        "fields": {
+          "name": "RFAM'S",
+          "canteen": 2,
+          "cuisine": "western"
+        }
+      }
+    ],
+    "products": [
+      {
+        "model": "main.product",
+        "pk": 4,
+        "fields": {
+          "name": "Ayam Penyet + Nasi",
+          "price": "18000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 5,
+        "fields": {
+          "name": "Ayam Rica-Rica + Nasi",
+          "price": "18000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 6,
+        "fields": {
+          "name": "Ayam Mercon + Nasi",
+          "price": "18000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 7,
+        "fields": {
+          "name": "Ayam Keling + Nasi",
+          "price": "18000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 8,
+        "fields": {
+          "name": "Ayam Bengis + Nasi",
+          "price": "18000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 9,
+        "fields": {
+          "name": "Ayam Master + Nasi",
+          "price": "18000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 10,
+        "fields": {
+          "name": "Mie Oblok Biasa",
+          "price": "10000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 11,
+        "fields": {
+          "name": "Pizza Mie",
+          "price": "10000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 12,
+        "fields": {
+          "name": "Nasi Timbel",
+          "price": "20000.00",
+          "stall": 12
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 13,
+        "fields": {
+          "name": "Mie Ayam",
+          "price": "14000.00",
+          "stall": 13
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 14,
+        "fields": {
+          "name": "Mie Yamin",
+          "price": "14000.00",
+          "stall": 13
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 15,
+        "fields": {
+          "name": "Bihun Ayam",
+          "price": "14000.00",
+          "stall": 13
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 16,
+        "fields": {
+          "name": "Bihun Jamur",
+          "price": "14000.00",
+          "stall": 13
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 17,
+        "fields": {
+          "name": "Mie Jamur",
+          "price": "14000.00",
+          "stall": 13
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 18,
+        "fields": {
+          "name": "Mie Yamin Jamur",
+          "price": "14000.00",
+          "stall": 13
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 19,
+        "fields": {
+          "name": "Gado-gado biasa",
+          "price": "10000.00",
+          "stall": 14
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 20,
+        "fields": {
+          "name": "Gado-gado telor",
+          "price": "13000.00",
+          "stall": 14
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 21,
+        "fields": {
+          "name": "Gado-gado telor + nasi",
+          "price": "16000.00",
+          "stall": 14
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 22,
+        "fields": {
+          "name": "Ketoprak Biasa",
+          "price": "10000.00",
+          "stall": 14
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 23,
+        "fields": {
+          "name": "Ketoprak Telor",
+          "price": "13000.00",
+          "stall": 14
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 24,
+        "fields": {
+          "name": "Ayam Kalasan",
+          "price": "18000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 25,
+        "fields": {
+          "name": "Ayam Kecap",
+          "price": "18000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 26,
+        "fields": {
+          "name": "Ayam Mentega",
+          "price": "18000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 27,
+        "fields": {
+          "name": "Ayam Cabe Kering",
+          "price": "18000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 28,
+        "fields": {
+          "name": "Nasi Tongseng Kambing",
+          "price": "15000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 29,
+        "fields": {
+          "name": "Nasi Tongseng Sapi",
+          "price": "15000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 30,
+        "fields": {
+          "name": "Nasi Tongseng Ayam",
+          "price": "15000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 31,
+        "fields": {
+          "name": "Nasi Tongseng Jamur",
+          "price": "15000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 32,
+        "fields": {
+          "name": "Nasi Tongseng Campur",
+          "price": "15000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 33,
+        "fields": {
+          "name": "Bubur Ayam",
+          "price": "15000.00",
+          "stall": 15
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 37,
+        "fields": {
+          "name": "Geprek Biasa",
+          "price": "18000.00",
+          "stall": 16
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 38,
+        "fields": {
+          "name": "Geprek Keju",
+          "price": "20000.00",
+          "stall": 16
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 39,
+        "fields": {
+          "name": "Fried Chicken",
+          "price": "18000.00",
+          "stall": 16
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 40,
+        "fields": {
+          "name": "Chicken Steak",
+          "price": "18000.00",
+          "stall": 17
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 41,
+        "fields": {
+          "name": "Beef Steak",
+          "price": "17000.00",
+          "stall": 17
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 42,
+        "fields": {
+          "name": "Fish Steak",
+          "price": "15000.00",
+          "stall": 17
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 43,
+        "fields": {
+          "name": "Chicken Mozarella Rice",
+          "price": "19000.00",
+          "stall": 17
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 44,
+        "fields": {
+          "name": "Beef Mozarella Rice",
+          "price": "20000.00",
+          "stall": 17
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 45,
+        "fields": {
+          "name": "Sosis Mozarella Rice",
+          "price": "15000.00",
+          "stall": 17
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 46,
+        "fields": {
+          "name": "Sosis Bakar",
+          "price": "10000.00",
+          "stall": 17
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 47,
+        "fields": {
+          "name": "French Fries",
+          "price": "10000.00",
+          "stall": 17
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 48,
+        "fields": {
+          "name": "Sate Ayam + Nasi/Lontong",
+          "price": "17000.00",
+          "stall": 18
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 49,
+        "fields": {
+          "name": "Sate Kambing + Nasi/Lontong",
+          "price": "22000.00",
+          "stall": 18
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 50,
+        "fields": {
+          "name": "Sate Campur + Nasi/Lontong",
+          "price": "20000.00",
+          "stall": 18
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 51,
+        "fields": {
+          "name": "8 Tusuk Sate Ayam + Nasi",
+          "price": "13000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 52,
+        "fields": {
+          "name": "8 Tusuk Sate Kambing + Nasi",
+          "price": "15000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 53,
+        "fields": {
+          "name": "1 Porsi nasi",
+          "price": "5000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 54,
+        "fields": {
+          "name": "1 Lontong",
+          "price": "3000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 55,
+        "fields": {
+          "name": "10 Tusuk Sate Ayam",
+          "price": "15000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 56,
+        "fields": {
+          "name": "10 Tusuk Sate Kambing",
+          "price": "17000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 57,
+        "fields": {
+          "name": "1/2 Sop 1/2 Sate Ayam + Nasi",
+          "price": "15000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 58,
+        "fields": {
+          "name": "1/2 Sop 1/2 Sate Kambing",
+          "price": "17000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 59,
+        "fields": {
+          "name": "1 Porsi Sop Ayam",
+          "price": "13000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 60,
+        "fields": {
+          "name": "1/2 Ayam 1/2 Kambing + Nasi",
+          "price": "16000.00",
+          "stall": 19
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 61,
+        "fields": {
+          "name": "Nasi Ayam Goreng Pecel",
+          "price": "19000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 62,
+        "fields": {
+          "name": "Nasi Ayam Penyet",
+          "price": "20000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 63,
+        "fields": {
+          "name": "Nasi Ikan Goreng Pecel",
+          "price": "19000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 64,
+        "fields": {
+          "name": "Nasi Ikan Penyet",
+          "price": "20000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 65,
+        "fields": {
+          "name": "Nasi Lele Goreng Pecel",
+          "price": "19000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 66,
+        "fields": {
+          "name": "Nasi Lele Penyet",
+          "price": "20000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 67,
+        "fields": {
+          "name": "Nasi Ayam Crispy Pecel",
+          "price": "21000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 68,
+        "fields": {
+          "name": "Nasi Ayam Crispy Penyet",
+          "price": "22000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 69,
+        "fields": {
+          "name": "Nasi Bebek Goreng Pecel",
+          "price": "24000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 70,
+        "fields": {
+          "name": "Nasi Bebek Penyet",
+          "price": "25000.00",
+          "stall": 20
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 71,
+        "fields": {
+          "name": "Fried Chicken + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "16000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 72,
+        "fields": {
+          "name": "Chicken Katsu + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "17000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 73,
+        "fields": {
+          "name": "Chicken Spicy + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "17000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 74,
+        "fields": {
+          "name": "Chicken Steak + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "17000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 75,
+        "fields": {
+          "name": "Tuna Spicy + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "17000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 76,
+        "fields": {
+          "name": "Udang Steak + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "17000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 77,
+        "fields": {
+          "name": "Cumi Spicy + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "17000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 78,
+        "fields": {
+          "name": "Sosis Balut Ayam + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "17000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 79,
+        "fields": {
+          "name": "Beef Katsu + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "17000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 80,
+        "fields": {
+          "name": "Chicken Cordon Bleu + Nasi (Saus Asam Manis/Gurih/Lada Hitam)",
+          "price": "18000.00",
+          "stall": 21
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 81,
+        "fields": {
+          "name": "Biryani Ayam",
+          "price": "22000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 82,
+        "fields": {
+          "name": "Biryani Kambing",
+          "price": "27000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 83,
+        "fields": {
+          "name": "Biryani Sapi",
+          "price": "27000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 84,
+        "fields": {
+          "name": "Biryani Bebek",
+          "price": "27000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 85,
+        "fields": {
+          "name": "Biryani Ikan",
+          "price": "27000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 86,
+        "fields": {
+          "name": "Vege Biryani",
+          "price": "20000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 87,
+        "fields": {
+          "name": "Biryani Mashala",
+          "price": "20000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 88,
+        "fields": {
+          "name": "Biryani Telur",
+          "price": "18000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 89,
+        "fields": {
+          "name": "Sweet Zarda",
+          "price": "18000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 90,
+        "fields": {
+          "name": "Shami Chicken Pakista",
+          "price": "12000.00",
+          "stall": 22
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 91,
+        "fields": {
+          "name": "Indomie Goreng/Rebus",
+          "price": "8000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 92,
+        "fields": {
+          "name": "Indomie Telur",
+          "price": "12000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 93,
+        "fields": {
+          "name": "Indomie Kornet",
+          "price": "12000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 94,
+        "fields": {
+          "name": "Indomie Keju",
+          "price": "12000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 95,
+        "fields": {
+          "name": "Indomie Telur Kornet",
+          "price": "15000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 96,
+        "fields": {
+          "name": "Indomie Kornet Keju",
+          "price": "15000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 97,
+        "fields": {
+          "name": "Indomie Telur Kornet Keju",
+          "price": "18000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 98,
+        "fields": {
+          "name": "Indomie Double",
+          "price": "15000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 99,
+        "fields": {
+          "name": "Indomie Double Telur",
+          "price": "18000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 100,
+        "fields": {
+          "name": "Indomie Double Kornet",
+          "price": "18000.00",
+          "stall": 24
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 101,
+        "fields": {
+          "name": "Teh Tawar",
+          "price": "8000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 102,
+        "fields": {
+          "name": "Teh Manis",
+          "price": "4000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 103,
+        "fields": {
+          "name": "Teh Lemon",
+          "price": "5000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 104,
+        "fields": {
+          "name": "Teh Susu",
+          "price": "6000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 105,
+        "fields": {
+          "name": "Air Jeruk",
+          "price": "6000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 106,
+        "fields": {
+          "name": "Jeruk Nipis",
+          "price": "6000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 107,
+        "fields": {
+          "name": "Kopi",
+          "price": "5000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 108,
+        "fields": {
+          "name": "Kopi Mix",
+          "price": "5000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 109,
+        "fields": {
+          "name": "Susu Putih",
+          "price": "6000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 110,
+        "fields": {
+          "name": "Kopi Susu",
+          "price": "8000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 111,
+        "fields": {
+          "name": "Ovaltine",
+          "price": "6000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 112,
+        "fields": {
+          "name": "Susu Ovaltine",
+          "price": "8000.00",
+          "stall": 26
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 113,
+        "fields": {
+          "name": "Nasi Goreng Ayam",
+          "price": "15000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 114,
+        "fields": {
+          "name": "Nasi Goreng Kambing",
+          "price": "17000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 115,
+        "fields": {
+          "name": "Nasi Goreng Sapi",
+          "price": "17000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 116,
+        "fields": {
+          "name": "Nasi Goreng Spesial",
+          "price": "18000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 117,
+        "fields": {
+          "name": "Nasi Goreng Seafood",
+          "price": "19000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 118,
+        "fields": {
+          "name": "Nasi Goreng Telur",
+          "price": "14000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 119,
+        "fields": {
+          "name": "Nasi Goreng Sayur",
+          "price": "13000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 120,
+        "fields": {
+          "name": "Nasi Goreng Ikan Asin",
+          "price": "16000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 121,
+        "fields": {
+          "name": "Nasi Goreng Mawut",
+          "price": "18000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 122,
+        "fields": {
+          "name": "Nasi Goreng Pete",
+          "price": "16000.00",
+          "stall": 23
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 123,
+        "fields": {
+          "name": "Soto Mie + Nasi",
+          "price": "20000.00",
+          "stall": 25
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 124,
+        "fields": {
+          "name": "Sup Kimlo + Nasi",
+          "price": "20000.00",
+          "stall": 25
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 125,
+        "fields": {
+          "name": "Rawon + Nasi",
+          "price": "22000.00",
+          "stall": 25
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 126,
+        "fields": {
+          "name": "Sate Ayam Kambing",
+          "price": "25000.00",
+          "stall": 18
+        }
+      },
+      {
+        "model": "main.product",
+        "pk": 1,
+        "fields": {
+          "name": "Mie Yamin Ayam Bakso Pangsit",
+          "price": "18000.00",
+          "stall": 13
+        }
+      }
+    ]
+  }

@@ -6,11 +6,22 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Faculty(models.Model):
     name = models.CharField(max_length=100)
     nickname = models.CharField(max_length=10)
-    name_css_class = models.CharField(max_length=200)
+    colors = models.CharField(max_length=200)  
     image = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+    def get_css_class(self):
+        colors = self.colors.split(',')
+        if len(colors) == 1:
+            return f"mb-4 rounded-full bg-{colors[0]}-500 py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center"
+        elif len(colors) == 2:
+            return f"mb-4 rounded-full py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center bg-gradient-to-r from-{colors[0]}-600 to-{colors[1]}-600"
+        elif len(colors) == 3:
+            return f"mb-4 rounded-full py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center bg-gradient-to-r from-{colors[0]}-600 via-{colors[1]}-500 to-{colors[2]}-500"
+        else:
+            return "mb-4 rounded-full py-0.5 px-2.5 border border-transparent text-xs text-white transition-all shadow-sm w-20 text-center"
 
 # canteen model
 class Canteen(models.Model):

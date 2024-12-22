@@ -2,6 +2,9 @@ django
 gunicorn
 whitenoise
 psycopg2-binary
+psycopg2
 requests
 coverage
 urllib3
+django-cors-headers
+python-dotenv

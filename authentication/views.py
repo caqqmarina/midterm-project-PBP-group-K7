@@ -17,6 +17,7 @@ def login(request):
             # Successful login status.
             return JsonResponse({
                 "username": user.username,
+                "is_staff": user.is_staff,
                 "status": True,
                 "message": "Login successful!"
                 # Add other data if you want to send data to Flutter.
@@ -78,13 +79,16 @@ def logout(request):
 
     try:
         auth_logout(request)
+        print(request.user.is_authenticated)  # Should print `False` after logout
+
         return JsonResponse({
             "username": username,
             "status": True,
             "message": "Logged out successfully!"
         }, status=200)
-    except:
+    except Exception as e:
+        print(f"Logout failed: {e}")  # Print any exception for debugging
         return JsonResponse({
-        "status": False,
-        "message": "Logout failed."
+            "status": False,
+            "message": "Logout failed."
         }, status=401)

@@ -78,13 +78,16 @@ def logout(request):
 
     try:
         auth_logout(request)
+        print(request.user.is_authenticated)  # Should print `False` after logout
+
         return JsonResponse({
             "username": username,
             "status": True,
             "message": "Logged out successfully!"
         }, status=200)
-    except:
+    except Exception as e:
+        print(f"Logout failed: {e}")  # Print any exception for debugging
         return JsonResponse({
-        "status": False,
-        "message": "Logout failed."
+            "status": False,
+            "message": "Logout failed."
         }, status=401)

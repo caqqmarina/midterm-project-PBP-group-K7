@@ -7,7 +7,8 @@ from main.views import (
     add_product, delete_faculty, show_json, login_and_register, delete_product,
     submit_review, delete_review, favorite_product, unfavorite_product, favorite_products,
     add_faculty, edit_faculty, get_stall_json, create_stall_flutter, update_stall_flutter, delete_stall_flutter, get_favorites_json,
-    submit_review_flutter, delete_review_flutter, create_faculty_flutter, create_canteen_flutter, get_product_json
+    submit_review_flutter, delete_review_flutter, create_faculty_flutter, create_canteen_flutter, get_product_json, create_product_flutter,
+    delete_product_flutter, edit_product_flutter
 )
 
 app_name = 'main'
@@ -49,6 +50,11 @@ urlpatterns = [
     path('add_product/<int:stall_id>/', add_product, name='add_product'), # Admin: add product to specific stall
     path('faculty/delete/<int:faculty_id>/', delete_faculty, name='delete_faculty'), # Admin: delete faculty
     path('delete_product/<int:product_id>/', delete_product, name='delete_product'),
+    
+    # Flutter
+    path('create-product-flutter/', create_product_flutter, name='create_product_flutter'),
+    path('delete-product-flutter/<int:product_id>/', delete_product_flutter, name='delete_product_flutter'),
+    path('edit-product-flutter/<int:id>/', edit_product_flutter, name='edit_product_flutter'),
     
     # JSON data endpoint for external use
     path('show_json/', show_json, name='show_json'),

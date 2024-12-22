@@ -18,6 +18,65 @@ from django.utils.timezone import now
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            stall_id = data.get("stall")
+            stall = Stall.objects.get(pk=stall_id)  # Get the Stall object by its ID
+            
+            new_product = Product.objects.create(
+                name=data["name"],
+                price=float(data["price"]),
+                stall=stall,
+            )
+            return JsonResponse({"status": "success", "product_id": new_product.id}, status=200)
+        except Stall.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Invalid stall ID"}, status=400)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid HTTP method"}, status=405)
+
+@csrf_exempt
+def edit_product_flutter(request, id):
+    if request.method == 'POST':
+        try:
+            # Parse the request body
+            data = json.loads(request.body.decode('utf-8'))
+            
+            # Fetch the product to edit
+            product = get_object_or_404(Product, pk=id)
+            
+            # Update product fields with the new data
+            product.name = data.get('name', product.name)
+            product.price = data.get('price', product.price)
+            product.stock = data.get('stock', product.stock)
+            
+            # Save the updated product
+            product.save()
+            
+            return JsonResponse({'status': 'success', 'message': 'Product updated successfully!'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method. Use POST.'})
+
+@csrf_exempt
+def delete_product_flutter(request, product_id):
+    if request.method == 'DELETE':
+        try:
+            product = Product.objects.get(pk=product_id)
+            product.delete()
+            return JsonResponse({"status": "success"}, status=200)
+        except Product.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Product not found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid HTTP method"}, status=405)
+
 def is_admin(user):
     return user.is_staff
 

@@ -39,6 +39,30 @@ def create_product_flutter(request):
         return JsonResponse({"status": "error", "message": "Invalid HTTP method"}, status=405)
 
 @csrf_exempt
+def edit_product_flutter(request, id):
+    if request.method == 'POST':
+        try:
+            # Parse the request body
+            data = json.loads(request.body.decode('utf-8'))
+            
+            # Fetch the product to edit
+            product = get_object_or_404(Product, pk=id)
+            
+            # Update product fields with the new data
+            product.name = data.get('name', product.name)
+            product.price = data.get('price', product.price)
+            product.stock = data.get('stock', product.stock)
+            
+            # Save the updated product
+            product.save()
+            
+            return JsonResponse({'status': 'success', 'message': 'Product updated successfully!'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method. Use POST.'})
+
+@csrf_exempt
 def delete_product_flutter(request, product_id):
     if request.method == 'DELETE':
         try:

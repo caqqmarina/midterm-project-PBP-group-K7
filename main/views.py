@@ -564,15 +564,42 @@ def create_canteen_flutter(request):
 @csrf_exempt
 def get_product_json(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    # In get_product_json
     data = {
-    "model": "main.product",
-    "pk": product.id,
-    "fields": {
-        "name": product.name,
-        "price": str(product.price),
-        "stall": product.stall.name 
-    }
+        "model": "main.product",
+        "pk": product.id,
+        "fields": {
+            "name": product.name,
+            "price": str(product.price),
+            "stall": {
+                "id": product.stall.id,
+                "name": product.stall.name,
+                "canteen": product.stall.canteen.name,
+            }
+        }
     }
     return JsonResponse(data)
 
+#filtering products by stall
+@csrf_exempt
+def products_json(request):
+    """
+    Returns a JSON response containing products.
+    If a 'stall_id' query parameter is provided, filters products by the given stall.
+    """
+    stall_id = request.GET.get('stall_id', None)
+    
+    if stall_id:
+        try:
+            stall_id = int(stall_id)
+            products = Product.objects.filter(stall_id=stall_id)
+        except ValueError:
+            return JsonResponse({"status": "error", "message": "Invalid stall_id parameter."}, status=400)
+    else:
+        products = Product.objects.all()
+    
+    # Serialize the products
+    serialized_products = serializers.serialize('json', products)
+    products_json = json.loads(serialized_products)
+    
+    # Return as JSON
+    return JsonResponse({"products": products_json}, safe=False)

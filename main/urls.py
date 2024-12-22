@@ -7,7 +7,7 @@ from main.views import (
     add_product, delete_faculty, show_json, login_and_register, delete_product,
     submit_review, delete_review, favorite_product, unfavorite_product, favorite_products,
     add_faculty, edit_faculty, get_stall_json, create_stall_flutter, update_stall_flutter, delete_stall_flutter, get_favorites_json,
-    submit_review_flutter, delete_review_flutter, create_faculty_flutter, create_canteen_flutter, get_product_json
+    submit_review_flutter, delete_review_flutter, create_faculty_flutter, create_canteen_flutter, get_product_json, products_json
 )
 
 app_name = 'main'
@@ -25,6 +25,7 @@ urlpatterns = [
     path('product/<int:product_id>/', product_detail, name='product_detail'),   # Product detail by product ID
     path('add_product/<int:stall_id>/', add_product, name='add_product'),
     path('get-product/<int:product_id>/', get_product_json, name='get_product_json'),
+    path('products_json/', products_json, name='products_json'),
 
     # Review submission
     path('delete_review/<int:review_id>/', delete_review, name='delete_review'),  

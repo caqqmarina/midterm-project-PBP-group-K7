@@ -8,7 +8,7 @@ from main.views import (
     submit_review, delete_review, favorite_product, unfavorite_product, favorite_products,
     add_faculty, edit_faculty, get_stall_json, create_stall_flutter, update_stall_flutter, delete_stall_flutter, get_favorites_json,
     submit_review_flutter, delete_review_flutter, create_faculty_flutter, create_canteen_flutter, get_product_json, create_product_flutter,
-    delete_product_flutter, edit_product_flutter
+    delete_product_flutter, edit_product_flutter, detailed_product_info
 )
 
 app_name = 'main'
@@ -50,11 +50,7 @@ urlpatterns = [
     path('add_product/<int:stall_id>/', add_product, name='add_product'), # Admin: add product to specific stall
     path('faculty/delete/<int:faculty_id>/', delete_faculty, name='delete_faculty'), # Admin: delete faculty
     path('delete_product/<int:product_id>/', delete_product, name='delete_product'),
-    
-    # Flutter
-    path('create-product-flutter/', create_product_flutter, name='create_product_flutter'),
-    path('delete-product-flutter/<int:product_id>/', delete_product_flutter, name='delete_product_flutter'),
-    path('edit-product-flutter/<int:id>/', edit_product_flutter, name='edit_product_flutter'),
+
     
     # JSON data endpoint for external use
     path('show_json/', show_json, name='show_json'),
@@ -63,6 +59,7 @@ urlpatterns = [
 
     # JSON data endpoint for Flutter
     path('get-stall/<int:stall_id>/', get_stall_json, name='get_stall_json'),
+    path('detailed_product_info/<int:product_id>', detailed_product_info, name='detailed_product_info'),
 
     # CRUD operations for Flutter
     path('create-stall-flutter/', create_stall_flutter, name='create_stall_flutter'),
@@ -72,4 +69,7 @@ urlpatterns = [
     path('delete-review-flutter/', delete_review_flutter, name='delete_review_flutter'),
     path('create-faculty-flutter/', create_faculty_flutter, name='create_faculty_flutter'),
     path('create-canteen-flutter/', create_canteen_flutter, name='create_canteen_flutter'),
+    path('create-product-flutter/', create_product_flutter, name='create_product_flutter'),
+    path('delete-product-flutter/<int:product_id>/', delete_product_flutter, name='delete_product_flutter'),
+    path('edit-product-flutter/<int:product_id>/', edit_product_flutter, name='edit_product_flutter'),
 ]
